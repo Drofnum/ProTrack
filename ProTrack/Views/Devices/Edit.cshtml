@@ -1,4 +1,4 @@
-﻿@model ProTrack.Data.Models.Device
+﻿@model ProTrack.Models.Display.DeviceListingModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -15,14 +15,14 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Manufacturer.ManufacturerName" class="control-label"></label>
-                <select asp-for="Manufacturer.ManufacturerName" class="form-control" asp-items="ViewBag.Manufacturer"></select>
-                <span asp-validation-for="Manufacturer.ManufacturerName" class="text-danger"></span>
+                <label asp-for="ManufacturerName" class="control-label"></label>
+                <select asp-for="ManufacturerName" class="form-control"></select>
+                <span asp-validation-for="ManufacturerName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product" class="control-label"></label>
-                <select asp-for="Product" class="form-control" asp-items="ViewBag.ProductId"></select>
-                <span asp-validation-for="Product" class="text-danger"></span>
+                <label asp-for="ProductName" class="control-label"></label>
+                <select asp-for="ProductName" class="form-control"></select>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Firmware" class="control-label"></label>

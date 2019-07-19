@@ -9,10 +9,12 @@ namespace ProTrack.Models.EndUser
     public class EndUserEntryModel
     {
         public int Id { get; set; }
+        public string ManufacturerName { get; set; }
+        public string ProductName { get; set; }
+        public string LocationName { get; set; }
         public Device Device { get; set; }
-        public Manufacturer ManuFacturer { get; set; }
+        public Manufacturer Manufacturer { get; set; }
         public Product Product { get; set; }
-
-        public IEnumerable<Location> Location { get; set; }
+        public Location Location { get; set; }
     }
 }

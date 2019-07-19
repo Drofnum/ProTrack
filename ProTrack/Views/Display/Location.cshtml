@@ -1,54 +1,47 @@
-﻿@model ProTrack.Models.Display.DeviceIndexModel
+﻿@model ProTrack.Models.Display.LocationIndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Location";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Location</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Manufacturer
+                LocationName
             </th>
             <th>
-                Model
+                C4 Account Name
             </th>
             <th>
-                Firmware
-            </th>
-            <th>
-                MAC Address
+                MyDot Email
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.DeviceList) {
+        @foreach (var item in Model.LocationList)
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ManufacturerName)
+                @Html.DisplayFor(modelItem => item.LocationName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
+                @Html.DisplayFor(modelItem => item.C4AccountName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Firmware)
+                @Html.DisplayFor(modelItem => item.MyDotEmail)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MacAddress)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

@@ -27,6 +27,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Models\Devices\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

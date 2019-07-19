@@ -37,14 +37,12 @@ namespace ProTrack.Service
             
         }
 
-        public Device GetById(int id)
+        public Device GetById(int? id)
         {
-            var device = _context.Devices.Where(d => d.Id == id)
+            return _context.Devices.Where(d => d.Id == id)
                 .Include(d => d.Manufacturer)
                 .Include(d => d.Product)
                 .FirstOrDefault();
-
-            return device;
         }
     }
 }

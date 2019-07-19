@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProTrack.Data
 {
-    public interface IDevice
+    public interface IEntry
     {
-        Device GetById(int? id);
-
-        IEnumerable<Device> GetAll();
-
-        Task Create(Device device);
-        Task Delete(int id);
+        Task Add(EndUserEntry entry);
     }
 }

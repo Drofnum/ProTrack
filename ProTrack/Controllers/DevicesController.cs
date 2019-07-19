@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProTrack.Data;
 using ProTrack.Data.Models;
-using ProTrack.Models.Devices;
+using ProTrack.Models.Display;
 
 namespace ProTrack.Controllers
 {
@@ -89,19 +89,30 @@ namespace ProTrack.Controllers
         }
 
         // GET: Devices/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var device = await _context.Devices.FindAsync(id);
+            var device = _deviceService.GetById(id);
+
+            var model = new DeviceListingModel
+            {
+                Id = device.Id,
+                ManufacturerName = device.Product.Manufacturer.ManufacturerName, //need to create IEnumerable for HTML select
+                ProductName = device.Product.ProductName,
+                MacAddress = device.MacAddress,
+                Firmware = device.Firmware,
+                Quantity = device.Quantity
+            };
+
             if (device == null)
             {
                 return NotFound();
             }
-            return View(device);
+            return View(model);
         }
 
         // POST: Devices/Edit/5
