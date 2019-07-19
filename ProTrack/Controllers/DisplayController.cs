@@ -63,7 +63,19 @@ namespace ProTrack.Controllers
 
         public IActionResult Product()
         {
-            return View();
+            var productList = _context.Products
+                .Select(product => new ProductListingModel
+                {
+                    Id = product.Id,
+                    ProductName = product.ProductName
+                });
+
+            var model = new ProductIndexModel
+            {
+                ProductList = productList
+            };
+
+            return View(model);
         }
     }
 }
