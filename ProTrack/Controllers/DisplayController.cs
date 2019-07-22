@@ -37,6 +37,23 @@ namespace ProTrack.Controllers
             return View(model);
         }
 
+        public IActionResult DeviceType()
+        {
+            var dtList = _context.DeviceTypes
+                .Select(dt => new DeviceTypeListingModel
+                {
+                    Id = dt.Id,
+                    DeviceType = dt.Type
+                });
+
+            var model = new DeviceTypeIndexModel
+            {
+                DeviceTypeList = dtList
+            };
+
+            return View(model);
+        }
+
         public IActionResult Location()
         {
             var locationList = _context.Locations
@@ -58,7 +75,19 @@ namespace ProTrack.Controllers
 
         public IActionResult Manufacturer()
         {
-            return View();
+            var mfgList = _context.Manufacturers
+                .Select(mfg => new ManufacturerListingModel
+                {
+                    Id = mfg.Id,
+                    ManufacturerName = mfg.ManufacturerName
+                });
+
+            var model = new ManufacturerIndexModel
+            {
+                ManufacturerList = mfgList
+            };
+
+            return View(model);
         }
 
         public IActionResult Product()

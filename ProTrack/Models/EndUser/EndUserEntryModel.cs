@@ -1,4 +1,6 @@
-﻿using ProTrack.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using ProTrack.Data.Models;
+using ProTrack.Models.Display;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +18,8 @@ namespace ProTrack.Models.EndUser
         public Manufacturer Manufacturer { get; set; }
         public Product Product { get; set; }
         public Location Location { get; set; }
+
+        public IEnumerable<LocationListingModel> LocationList { get; set; }
+        public List<SelectListItem> ManufacturerList { get; set; }
     }
 }

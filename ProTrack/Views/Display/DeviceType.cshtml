@@ -1,4 +1,4 @@
-﻿@model ProTrack.Models.Display.ManufacturerIndexModel
+﻿@model ProTrack.Models.Display.DeviceTypeIndexModel
 
 @{
     ViewData["Title"] = "Manufacturer";
@@ -11,17 +11,17 @@
     <thead>
         <tr>
             <th>
-                Manufacturer
+                Device Type
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.ManufacturerList)
+        @foreach (var item in Model.DeviceTypeList)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ManufacturerName)
+                    @Html.DisplayFor(modelItem => item.DeviceType)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

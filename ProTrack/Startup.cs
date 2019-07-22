@@ -35,8 +35,8 @@ namespace ProTrack
 
             services.AddScoped<IApplicationUser, ApplicationUserService>();
             services.AddScoped<IDevice, DeviceService>();
+            services.AddScoped<IEntry, EntryService>();
 
-            services.AddTransient<DataSeeder>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -54,8 +54,6 @@ namespace ProTrack
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            dataSeeder.SeedManufacturers();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

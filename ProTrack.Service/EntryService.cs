@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProTrack.Service
 {
-    class EntryService : IEntry
+    public class EntryService : IEntry
     {
         private readonly ApplicationDbContext context;
 

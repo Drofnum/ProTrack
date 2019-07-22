@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProTrack.Data;
 using ProTrack.Data.Models;
+using ProTrack.Models.Display;
 using ProTrack.Models.EndUser;
 
 namespace ProTrack.Controllers
@@ -14,11 +16,38 @@ namespace ProTrack.Controllers
     {
         private readonly IEntry _entryService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public EndUserController(IEntry entryService, UserManager<ApplicationUser> userManager)
+        public EndUserController(IEntry entryService, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _entryService = entryService;
             _userManager = userManager;
+            _context = context;
+        }
+
+        public IActionResult Entry()
+        {
+            var locationList = _context.Locations
+                .Select(loc => new LocationListingModel
+                {
+                    Id = loc.Id,
+                    LocationName = loc.LocationName
+                }).ToList();
+
+            var mfgList = _context.Manufacturers
+                .Select(mfg => new SelectListItem()
+                {
+                    Value = mfg.Id.ToString(),
+                    Text = mfg.ManufacturerName
+                }).ToList();
+
+            var model = new EndUserEntryModel
+            {
+                LocationList = locationList,
+                ManufacturerList = mfgList
+            };
+
+            return View(model);
         }
 
         [HttpPost]
