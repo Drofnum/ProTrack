@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProTrack.Data;
+using ProTrack.Data.Models;
 using ProTrack.Models.Display;
 
 namespace ProTrack.Controllers
@@ -9,11 +11,13 @@ namespace ProTrack.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IDevice _deviceService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DisplayController(ApplicationDbContext context, IDevice deviceService)
+        public DisplayController(ApplicationDbContext context, IDevice deviceService, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _deviceService = deviceService;
+            _userManager = userManager;
         }
 
         public IActionResult Device()

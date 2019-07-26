@@ -14,12 +14,17 @@ namespace ProTrack.Models.EndUser
         public string ManufacturerName { get; set; }
         public string ProductName { get; set; }
         public string LocationName { get; set; }
+        public int LocationId { get; set; }
         public Device Device { get; set; }
         public Manufacturer Manufacturer { get; set; }
         public Product Product { get; set; }
         public Location Location { get; set; }
+        public DeviceType DeviceType { get; set; }
 
-        public IEnumerable<LocationListingModel> LocationList { get; set; }
+        public List<SelectListItem> LocationList { get; set; }
         public List<SelectListItem> ManufacturerList { get; set; }
+        public List<SelectListItem> DeviceTypeList { get; set; }
+        public IEnumerable<DeviceListingModel> DeviceList { get; set; }
+
     }
 }

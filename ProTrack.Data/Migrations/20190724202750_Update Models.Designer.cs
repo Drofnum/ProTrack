@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProTrack.Data;
 
 namespace ProTrack.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190724202750_Update Models")]
+    partial class UpdateModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,9 +255,13 @@ namespace ProTrack.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("DeviceTypeId");
+
                     b.Property<string>("ManufacturerName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DeviceTypeId");
 
                     b.ToTable("Manufacturers");
                 });
@@ -335,6 +341,13 @@ namespace ProTrack.Data.Migrations
                     b.HasOne("ProTrack.Data.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("ProTrack.Data.Models.Manufacturer", b =>
+                {
+                    b.HasOne("ProTrack.Data.Models.DeviceType", "DeviceType")
+                        .WithMany()
+                        .HasForeignKey("DeviceTypeId");
                 });
 
             modelBuilder.Entity("ProTrack.Data.Models.Product", b =>

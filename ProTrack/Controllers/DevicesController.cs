@@ -55,8 +55,8 @@ namespace ProTrack.Controllers
             }
 
             var device = await _context.Devices
-                .Include(d => d.Manufacturer)
                 .Include(d => d.Product)
+                .ThenInclude(p => p.Manufacturer)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (device == null)
             {

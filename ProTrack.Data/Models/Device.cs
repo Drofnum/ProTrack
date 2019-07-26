@@ -10,7 +10,7 @@ namespace ProTrack.Data.Models
         public string Firmware { get; set; }
         public string MacAddress { get; set; }
         public int Quantity { get; set; }
-        public Manufacturer Manufacturer { get; set; }
         public Product Product { get; set; }
+        public Location Location { get; set; }
     }
 }

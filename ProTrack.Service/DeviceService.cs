@@ -18,9 +18,10 @@ namespace ProTrack.Service
             _context = context;
         }
 
-        public Task Create(Device device)
+        public async Task Create(Device device)
         {
-            throw new NotImplementedException();
+            _context.Add(device);
+            await _context.SaveChangesAsync();
         }
 
         public Task Delete(int id)
@@ -31,7 +32,6 @@ namespace ProTrack.Service
         public IEnumerable<Device> GetAll()
         {
             return _context.Devices
-                .Include(d => d.Manufacturer)
                 .Include(d => d.Product);
 
             
@@ -40,8 +40,8 @@ namespace ProTrack.Service
         public Device GetById(int? id)
         {
             return _context.Devices.Where(d => d.Id == id)
-                .Include(d => d.Manufacturer)
                 .Include(d => d.Product)
+                .ThenInclude(p => p.Manufacturer)
                 .FirstOrDefault();
         }
     }

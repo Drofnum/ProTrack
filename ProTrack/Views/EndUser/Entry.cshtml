@@ -4,61 +4,119 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Enter new Devices</h1>
+<h1>Add Devices</h1>
 
 <div class="row">
     <div class="col-md-8">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="GetDevices" method="post" id="locationForm">
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <select asp-for="Location" class="form-control"></select>
+                @*You are using asp-for Location so that is what will be sent to the controller*@
+                <label asp-for="Location" class="control-label">Location</label>
+                <select name="Id" asp-items="Model.LocationList" class="form-control" id="locationList">
+                    <option selected="selected" disabled value="">Select</option>
+                </select>
             </div>
-            <div class="row" id="form">
-                <div class="col-md-6 col-md-6 form-group">
-                    <label asp-for="ManufacturerName" class="control-label">Manufacturer</label>
-                    <select asp-for="ManufacturerName" class="form-control" asp-items="@Model.ManufacturerList"></select>
-                    <span asp-validation-for="ManufacturerName" class="text-danger"></span>
+        </form>
+        <form asp-action="Create" method="post" id="devicesForm">
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label asp-for="DeviceType" class="control-label">Device Type</label>
+                    <select asp-for="DeviceType" asp-items="Model.DeviceTypeList" class="form-control" id="typeList">
+                        <option selected="selected" disabled value="">Select</option>
+                    </select>
+                    <span asp-validation-for="DeviceType" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 col-md-6 form-group">
-                    <label asp-for="ProductName" class="control-label">Product</label>
-                    <input asp-for="ProductName" class="form-control" />
-                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                <div class="col-md-4 col-md-8 form-group">
+                    <label asp-for="Device" class="control-label">Device</label>
+                    <select name="Id" class="form-control" id="deviceList" >
+                        <option selected="selected" disabled value="">Select Device Type...</option>
+                    </select>
+                    <span asp-validation-for="Device" class="text-danger"></span>
                 </div>
-
             </div>
             <div class="row">
                 <div class="col-md-4 form-group">
-                    <input onclick="add(); return false;" value="New Device" class="btn btn-primary" />
-                </div>
-                <div class="col-md-4 form-group">
-                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    <input type="submit" value="Add" id="addBtn" class="btn btn-primary" />
                 </div>
             </div>
+            <input asp-for="LocationId" name="LocationId" id="deviceLocation" value="21" type="hidden" />
         </form>
     </div>
 </div>
 
-<script type="text/javascript">
-    var i = 1;
-    function add() {
-        var form = document.getElementById("form");
-        var selectDiv = document.createElement("div");
-        selectDiv.className = "col-md-6 col-md-6 form-group"
-        var inputDiv = document.createElement("div");
-        inputDiv.className = "col-md-6 col-md-6 form-group"
-        var select = document.createElement("select");
-        select.className = "form-control";
-        select.id = "ManucfacturerName" + i;
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Manufacturer
+            </th>
+            <th>
+                Model
+            </th>
+            <th>
+                Firmware
+            </th>
+            <th>
+                MAC Address
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DeviceList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firmware)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MacAddress)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-        var input = document.createElement("input");
-        input.className = "form-control";
-        input.type = "text";
-        input.id = "ProductName" + i;
-        i += 1;
-        form.append(selectDiv);
-        selectDiv.append(select);
-        form.append(inputDiv);
-        inputDiv.append(input);
-    }
-</script>
+@section Scripts
+{
+    <script type="text/javascript">
+        //Bind City dropdownlist
+        $("#typeList").change(function () {
+            var typeId = $("#typeList").val();
+            var url = "/EndUser/GetManufacturer";
+
+            $.getJSON(url, { deviceType: typeId }, function (data) {
+                var item = "";
+                $("#deviceList").empty();
+                $.each(data, function (i, mfg) {
+                    item += '<option value="' + mfg.value + '">' + mfg.text + '</option>'
+                });
+                $("#deviceList").html(item);
+            });
+        });
+
+    $('#locationList').change(function () {
+        $('#locationForm').submit();
+        var loc = $('locationList').val();
+            $('#deviceLocation').val(loc);
+    });
+
+
+            var loc = $('locationList').val();
+            $('#deviceLocation').val(loc);
+ 
+    </script>
+}
+
