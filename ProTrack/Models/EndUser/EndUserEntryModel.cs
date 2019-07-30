@@ -13,6 +13,9 @@ namespace ProTrack.Models.EndUser
         public int Id { get; set; }
         public string ManufacturerName { get; set; }
         public string ProductName { get; set; }
+        public string MacAddress { get;  set; }
+        public string Firmware { get; set; }
+        public int Quantity { get; set; }
         public string LocationName { get; set; }
         public int LocationId { get; set; }
         public Device Device { get; set; }
@@ -24,7 +27,8 @@ namespace ProTrack.Models.EndUser
         public List<SelectListItem> LocationList { get; set; }
         public List<SelectListItem> ManufacturerList { get; set; }
         public List<SelectListItem> DeviceTypeList { get; set; }
+        public List<SelectListItem> ProductList { get; set; }
         public IEnumerable<DeviceListingModel> DeviceList { get; set; }
-
+        
     }
 }

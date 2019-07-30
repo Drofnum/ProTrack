@@ -40,6 +40,7 @@ namespace ProTrack.Service
         public Device GetById(int? id)
         {
             return _context.Devices.Where(d => d.Id == id)
+                .Include(d => d.Location)
                 .Include(d => d.Product)
                 .ThenInclude(p => p.Manufacturer)
                 .FirstOrDefault();

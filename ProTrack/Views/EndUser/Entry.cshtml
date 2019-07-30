@@ -17,6 +17,11 @@
                     <option selected="selected" disabled value="">Select</option>
                 </select>
             </div>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <a asp-controller="Location" asp-action="ManageLocation" type="button" value="Manage Locations" class="btn btn-primary">Manage Locations</a>
+                </div>
+            </div>
         </form>
         <form asp-action="Create" method="post" id="devicesForm">
             <div class="row">
@@ -29,7 +34,7 @@
                 </div>
                 <div class="col-md-4 col-md-8 form-group">
                     <label asp-for="Device" class="control-label">Device</label>
-                    <select name="Id" class="form-control" id="deviceList" >
+                    <select name="Id" class="form-control" id="deviceList">
                         <option selected="selected" disabled value="">Select Device Type...</option>
                     </select>
                     <span asp-validation-for="Device" class="text-danger"></span>
@@ -40,7 +45,7 @@
                     <input type="submit" value="Add" id="addBtn" class="btn btn-primary" />
                 </div>
             </div>
-            <input asp-for="LocationId" name="LocationId" id="deviceLocation" value="21" type="hidden" />
+            <input asp-for="LocationId" name="LocationId" id="deviceLocation" type="hidden" />
         </form>
     </div>
 </div>
@@ -92,31 +97,30 @@
 @section Scripts
 {
     <script type="text/javascript">
+        $(document).ready(function () {
+            var loc = $('#locationList').val();
+            $('#deviceLocation').val(loc);
+        });
+
         //Bind City dropdownlist
         $("#typeList").change(function () {
             var typeId = $("#typeList").val();
-            var url = "/EndUser/GetManufacturer";
+            var url = "/EndUser/GetProducts";
 
             $.getJSON(url, { deviceType: typeId }, function (data) {
                 var item = "";
                 $("#deviceList").empty();
-                $.each(data, function (i, mfg) {
-                    item += '<option value="' + mfg.value + '">' + mfg.text + '</option>'
+                $.each(data, function (i, p) {
+                    item += '<option value="' + p.value + '">' + p.text + '</option>'
                 });
                 $("#deviceList").html(item);
             });
         });
 
-    $('#locationList').change(function () {
-        $('#locationForm').submit();
-        var loc = $('locationList').val();
-            $('#deviceLocation').val(loc);
-    });
+        $('#locationList').change(function () {
+            $('#locationForm').submit();
+        });
 
-
-            var loc = $('locationList').val();
-            $('#deviceLocation').val(loc);
- 
     </script>
 }
 
