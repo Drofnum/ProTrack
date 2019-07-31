@@ -12,3 +12,17 @@ C:\Users\amunford\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.csproj.CopyComplete
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.dll
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.pdb
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\ProTrack.Service.deps.json
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\ProTrack.Service.dll
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\ProTrack.Service.pdb
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\ProTrack.Data.dll
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\ProTrack.Data.pdb
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Mvc.ViewFeatures.xml
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.csprojAssemblyReference.cache
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.csproj.CoreCompileInputs.cache
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.AssemblyInfoInputs.cache
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.AssemblyInfo.cs
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.csproj.CopyComplete
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.dll
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.pdb

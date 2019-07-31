@@ -36,6 +36,7 @@ namespace ProTrack
             services.AddScoped<IApplicationUser, ApplicationUserService>();
             services.AddScoped<IDevice, DeviceService>();
             services.AddScoped<IEntry, EntryService>();
+            services.AddScoped<ILocation, LocationService>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

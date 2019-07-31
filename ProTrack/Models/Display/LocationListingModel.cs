@@ -11,5 +11,6 @@ namespace ProTrack.Models.Display
         public string LocationName { get; set; }
         public string MyDotEmail { get; set; }
         public string C4AccountName { get; set; }
+        public string ApplicationUser { get; set; }
     }
 }

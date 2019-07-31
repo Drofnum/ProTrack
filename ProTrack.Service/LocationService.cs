@@ -1,13 +1,15 @@
-﻿using ProTrack.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProTrack.Data;
 using ProTrack.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProTrack.Service
 {
-    class LocationService : ILocation
+    public class LocationService : ILocation
     {
         private readonly ApplicationDbContext _context;
 
@@ -33,7 +35,9 @@ namespace ProTrack.Service
 
         public Location GetById(int? id)
         {
-            throw new NotImplementedException();
+            return _context.Locations.Where(l => l.Id == id)
+            .Include(l => l.Devices)
+            .FirstOrDefault();
         }
     }
 }

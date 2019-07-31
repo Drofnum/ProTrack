@@ -1,0 +1,46 @@
+﻿@model ProTrack.Models.Display.LocationIndexModel
+
+@{
+    ViewData["Title"] = "Location";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Manage Locations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                LocationName
+            </th>
+            <th>
+                C4 Account Name
+            </th>
+            <th>
+                MyDot Email
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LocationList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.C4AccountName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MyDotEmail)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
