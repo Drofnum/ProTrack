@@ -119,20 +119,12 @@ namespace ProTrack.Controllers
                 return NotFound();
             }
 
-            var userId = _userManager.GetUserId(User);
-            var saveLocation = new Location
-            {
-                LocationName = location.LocationName,
-                MyDotEmail = location.MyDotEmail,
-                C4AccountName = location.C4AccountName,
-                ApplicationUser = userId
-            };
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(saveLocation);
+                    _context.Update(location);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
