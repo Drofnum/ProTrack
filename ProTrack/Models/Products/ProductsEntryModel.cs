@@ -14,7 +14,7 @@ namespace ProTrack.Models.Products
         public string ProductName { get; set; }
         public int DTId { get; set; }
         public int MfgId { get; set; }
-
+        
         public DeviceType DeviceType { get; set; }
         public Manufacturer Manufacturer { get; set; }
 

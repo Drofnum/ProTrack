@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProTrack.Data;
 using ProTrack.Data.Models;
+using ProTrack.Models.Display;
 using ProTrack.Models.Products;
 
 namespace ProTrack.Controllers
@@ -70,19 +71,7 @@ namespace ProTrack.Controllers
             return View(model);
         }
 
-        private Product BuildProductEntry(ProductsEntryModel model)
-        {
-            var deviceType = _context.DeviceTypes.Where(dt => dt.Id == model.DTId).FirstOrDefault();
-            var mfg = _context.Manufacturers.Where(m => m.Id == model.MfgId).FirstOrDefault();
 
-                return new Product
-                {
-                    ProductName = model.ProductName,
-                    DeviceType = deviceType,
-                    Manufacturer = mfg
-                };
-
-        }
 
 
         // GET: Product/Edit/5
@@ -93,20 +82,50 @@ namespace ProTrack.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            //var userId = _userManager.GetUserId(User);
+            var product = _productService.GetById(id);
+
             if (product == null)
             {
                 return NotFound();
             }
-            return View(product);
+
+            var deviceTypeList = _context.DeviceTypes
+                .Select(dt => new SelectListItem()
+                    {
+                    Value = dt.Id.ToString(),
+                    Text = dt.Type,
+                    Selected = product.DeviceType.Id == dt.Id ? true : false
+                }).ToList();
+
+            var mfgList = _context.Manufacturers
+                .Select(mfg => new SelectListItem()
+                {
+                    Value = mfg.Id.ToString(),
+                    Text = mfg.ManufacturerName,
+                    Selected = product.Manufacturer.Id == mfg.Id ? true : false
+                }).ToList();
+
+            var model = new ProductsEntryModel
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                DeviceTypeList = deviceTypeList,
+                ManufacturerList = mfgList
+            };
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(model);
         }
 
         // POST: Product/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName")] Product product)
+        public async Task<IActionResult> Edit(int id, ProductsEntryModel product)
         {
             if (id != product.Id)
             {
@@ -117,7 +136,10 @@ namespace ProTrack.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    var save = BuildProductEntry(product);
+                    
+
+                    _context.Update(save);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -183,6 +205,21 @@ namespace ProTrack.Controllers
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);
+        }
+
+        private Product BuildProductEntry(ProductsEntryModel model)
+        {
+            var deviceType = _context.DeviceTypes.Where(dt => dt.Id == model.DTId).FirstOrDefault();
+            var mfg = _context.Manufacturers.Where(m => m.Id == model.MfgId).FirstOrDefault();
+
+            return new Product
+            {
+                Id = model.Id,
+                ProductName = model.ProductName,
+                DeviceType = deviceType,
+                Manufacturer = mfg
+            };
+
         }
     }
 }

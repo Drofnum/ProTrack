@@ -65,31 +65,36 @@
             <th>
                 MAC Address
             </th>
+            <th>
+                Quantity
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.DeviceList)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ManufacturerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Firmware)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MacAddress)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firmware)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MacAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
@@ -102,7 +107,7 @@
             $('#deviceLocation').val(loc);
         });
 
-        //Bind City dropdownlist
+        //Bind product dropdownlist
         $("#typeList").change(function () {
             var typeId = $("#typeList").val();
             var url = "/EndUser/GetProducts";

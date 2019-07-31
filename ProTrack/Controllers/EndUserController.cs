@@ -127,7 +127,7 @@ namespace ProTrack.Controllers
                 {
                     Value = mfg.Id.ToString(),
                     Text = mfg.ManufacturerName,
-                    Selected = device.Product.Manufacturer.Id == mfg.Id ? true : false
+                    //Selected = device.Product.Manufacturer.Id == mfg.Id ? true : false
                 }).ToList();
 
             var productList = _context.Products
@@ -135,14 +135,15 @@ namespace ProTrack.Controllers
                 {
                     Value = p.Id.ToString(),
                     Text = p.ProductName,
-                    Selected = device.Product.Id == p.Id ? true : false
+                    //Selected = device.Product.Id == p.Id ? true : false
                 }).ToList();
 
-            var model = new EndUserEntryModel
+            var model = new DeviceListingModel
             {
                 Id = device.Id,
                 ManufacturerName = device.Product.Manufacturer.ManufacturerName, //need to create IEnumerable for HTML select
-                ProductName = device.Product.ProductName,
+                ManufacturerId = device.Product.Manufacturer.Id,
+                Product = device.Product,
                 Location = device.Location,
                 MacAddress = device.MacAddress,
                 Firmware = device.Firmware,
@@ -167,7 +168,7 @@ namespace ProTrack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Device device)
+        public async Task<IActionResult> Edit(EndUserEntryModel model, [Bind("Id,Firmware,MacAddress,Product,Location,Quantity")] Device device,int id)
         {
             var locationId = _context.Devices.Where(d => id == d.Id)
                 .Select(d => d.Location.Id).FirstOrDefault();
@@ -181,6 +182,9 @@ namespace ProTrack.Controllers
             {
                 try
                 {
+                    /*var location = _context.Locations.Where(l => l.Id == locationId).FirstOrDefault();
+                    var save = BuildDeviceUpdate(model);
+                    */
                     _context.Update(device);
                     await _context.SaveChangesAsync();
                 }
@@ -253,6 +257,27 @@ namespace ProTrack.Controllers
             return Json(productList);
         }
 
+        [HttpGet]
+        public JsonResult GetProductsByMfg(int mfgId, int deviceId)
+        {
+            List<SelectListItem> selectedProduct = new List<SelectListItem>();
+            List<SelectListItem> productList = new List<SelectListItem>();
+            var productId = _context.Devices.Where(d => d.Id == deviceId)
+                .Select(d => d.Product.Id)
+                .FirstOrDefault();
+
+            productList = _context.Products.Where(p => p.Manufacturer.Id == mfgId)
+                .Select(p => new SelectListItem()
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.ProductName,
+                    Selected = p.Id == productId - 1 ? true : false                    
+                }).OrderBy(p => p.Selected).ToList();
+
+            return Json(productList);
+        }
+
+
         private bool DeviceExists(int id)
         {
             return _context.Devices.Any(e => e.Id == id);
@@ -267,23 +292,6 @@ namespace ProTrack.Controllers
                 Product = product,
                 Quantity = 1,
                 Location = location
-            };
-        }
-
-        private EndUserEntry BuildLocation(EndUserEntryModel model, ApplicationUser user)
-        {
-            return new EndUserEntry
-            {
-                Id = model.Location.Id
-            };
-        }
-
-        private EndUserEntry BuildEntry(EndUserEntryModel model, ApplicationUser user)
-        {
-            return new EndUserEntry
-            {
-                Manufacturer = model.Manufacturer,
-                Product = model.Product,
             };
         }
     }

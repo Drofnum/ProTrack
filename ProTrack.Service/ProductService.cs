@@ -1,7 +1,9 @@
-﻿using ProTrack.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProTrack.Data;
 using ProTrack.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +36,10 @@ namespace ProTrack.Service
 
         public Product GetById(int? id)
         {
-            throw new NotImplementedException();
+            return _context.Products.Where(l => l.Id == id)
+            .Include(p => p.Manufacturer)
+            .Include(p => p.DeviceType)
+            .FirstOrDefault();
         }
     }
 }
