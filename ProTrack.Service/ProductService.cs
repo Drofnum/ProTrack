@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProTrack.Service
 {
-    class ProductService : IProduct
+    public class ProductService : IProduct
     {
         private readonly ApplicationDbContext _context;
 
@@ -16,9 +16,10 @@ namespace ProTrack.Service
             _context = context;
         }
 
-        public Task Create(Product product)
+        public async Task Create(Product product)
         {
-            throw new NotImplementedException();
+            _context.Add(product);
+            await _context.SaveChangesAsync();
         }
 
         public Task Delete(int id)

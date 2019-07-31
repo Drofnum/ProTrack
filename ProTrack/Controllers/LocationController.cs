@@ -83,6 +83,8 @@ namespace ProTrack.Controllers
         // GET: Location/Edit/5
         public IActionResult Edit(int? id)
         {
+
+
             if (id == null)
             {
                 return NotFound();
@@ -90,6 +92,11 @@ namespace ProTrack.Controllers
 
             var userId = _userManager.GetUserId(User);
             var location = _locationService.GetById(id);
+
+            if (location == null || location.ApplicationUser != userId)
+            {
+                return NotFound();
+            }
 
             var model = new LocationListingModel
             {
