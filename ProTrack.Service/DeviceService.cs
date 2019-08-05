@@ -45,5 +45,19 @@ namespace ProTrack.Service
                 .ThenInclude(p => p.Manufacturer)
                 .FirstOrDefault();
         }
+
+        public IEnumerable<Device> GetDeviceByName(string searchQuery)
+        {
+            var query = searchQuery.ToLower();
+
+            return _context.Devices
+                .Include(d => d.Product)
+                .ThenInclude(p => p.Manufacturer)
+                .Include(d => d.Location)
+                .Where(d =>
+                d.Product.ProductName.ToLower().Contains(query)
+                || d.Product.Manufacturer.ManufacturerName.ToLower().Contains(query));
+                
+        }
     }
 }

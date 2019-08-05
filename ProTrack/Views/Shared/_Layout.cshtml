@@ -40,24 +40,27 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <ul class="navbar-nav nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="EndUser" asp-action="Entry">My Devices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Location" asp-action="Manage">My Locations</a>
-                        </li>
-                    </ul>
-                        <div class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navbarMenu">Admin Tools<span class="caret"></span></a>
-                            <div class="dropdown-menu">
-                                <p class="dropdown-header">Admin</p>
-                                <a class="dropdown-item" asp-action="" asp-route-id="">Search</a>
-                                <a class="dropdown-item" asp-controller="" asp-action="">Advanced Search</a>
-                                <a class="dropdown-item" asp-controller="" asp-action="">RMS stuff?</a>
+                        <ul class="navbar-nav nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="EndUser" asp-action="Entry">My Devices</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Location" asp-action="Manage">My Locations</a>
+                            </li>
+                        </ul>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle text-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navbarMenu">Admin Tools<span class="caret"></span></a>
+                                <div class="dropdown-menu">
+                                    <p class="dropdown-header">Admin</p>
+                                    <a class="dropdown-item" asp-action="" asp-route-id="">Search</a>
+                                    <a class="dropdown-item" asp-controller="" asp-action="">Advanced Search</a>
+                                    <a class="dropdown-item" asp-controller="" asp-action="">RMS stuff?</a>
 
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
                 <partial name="_LoginPartial" />

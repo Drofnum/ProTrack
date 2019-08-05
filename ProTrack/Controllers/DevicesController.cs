@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProTrack.Data;
@@ -8,6 +9,7 @@ using ProTrack.Models.Display;
 
 namespace ProTrack.Controllers
 {
+    [Authorize]
     public class DevicesController : Controller
     {
         private readonly ApplicationDbContext _context;

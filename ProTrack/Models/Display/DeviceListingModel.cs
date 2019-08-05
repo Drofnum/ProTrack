@@ -13,6 +13,9 @@ namespace ProTrack.Models.Display
         public string ManufacturerName { get; set; }
         public int ManufacturerId { get; set; }
         public string ProductName { get; set; }
+        public string LocationName { get; set; }
+        public string Email { get; set; }
+
         public Product Product { get; set; }
         public Location Location { get; set; }
 

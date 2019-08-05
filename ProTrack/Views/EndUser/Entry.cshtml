@@ -44,6 +44,9 @@
                 <div class="col-md-4 form-group">
                     <input type="submit" value="Add" id="addBtn" class="btn btn-primary" />
                 </div>
+                <div class="col-md-4 form-group">
+                    <a asp-controller="Products" asp-action="Create" type="button" value="New Device" class="btn btn-primary">Create New Device</a>
+                </div>
             </div>
             <input asp-for="LocationId" name="LocationId" id="deviceLocation" type="hidden" />
         </form>
@@ -57,7 +60,7 @@
                 Manufacturer
             </th>
             <th>
-                Model
+                Device
             </th>
             <th>
                 Firmware

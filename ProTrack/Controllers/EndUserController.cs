@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ using ProTrack.Models.EndUser;
 
 namespace ProTrack.Controllers
 {
+    [Authorize]
     public class EndUserController : Controller
     {
         private readonly IEntry _entryService;

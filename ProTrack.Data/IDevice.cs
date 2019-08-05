@@ -11,6 +11,7 @@ namespace ProTrack.Data
         Device GetById(int? id);
 
         IEnumerable<Device> GetAll();
+        IEnumerable<Device> GetDeviceByName(string searchQuery);
 
         Task Create(Device device);
         Task Delete(int id);

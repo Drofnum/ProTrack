@@ -1,0 +1,94 @@
+﻿@model ProTrack.Models.Search.SearchResultModel
+
+    <div class="container body-content">
+        <div class="row sectionHeader">
+            <div class="sectionHeading">
+                <span>Search Results for: @Model.SearchQuery</span>
+                <form asp-controller="Search" asp-action="Search" method="post">
+                    <div class="searchForm">
+                        <input asp-for="SearchQuery" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)" />
+                        <button type="submit" class="btn button-forumSearch">
+                            <i class="material-icons">search</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        @if (Model.Devices.Any())
+        {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Manufacturer
+                    </th>
+                    <th>
+                        Model
+                    </th>
+                    <th>
+                        Firmware
+                    </th>
+                    <th>
+                        MAC Address
+                    </th>
+                    <th>
+                        Location Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Devices)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManufacturerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firmware)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MacAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LocationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        }
+        else if (@Model.EmptySearchResults)
+        {
+        <div class="noResults">
+            <i class="material-icons md-72">question_answer</i>
+            <h3>
+                No search results found for @Model.SearchQuery! <br />
+            </h3>
+        </div>
+
+        }
+    </div>
+
+@section Scripts
+    {
+    <script>
+        function clearThis(target) {
+            target.value = "";
+        }
+    </script>
+}

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProTrack.Data;
@@ -7,6 +8,7 @@ using ProTrack.Models.Display;
 
 namespace ProTrack.Controllers
 {
+    [Authorize]
     public class DisplayController : Controller
     {
         private readonly ApplicationDbContext _context;

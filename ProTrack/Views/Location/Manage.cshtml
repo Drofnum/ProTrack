@@ -16,13 +16,13 @@
     <thead>
         <tr>
             <th>
-                LocationName
-            </th>
-            <th>
-                C4 Account Name
+                Location Name
             </th>
             <th>
                 MyDot Email
+            </th>
+            <th>
+                Control4 Account Name
             </th>
             <th></th>
         </tr>
@@ -30,22 +30,21 @@
     <tbody>
         @foreach (var item in Model.LocationList)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.C4AccountName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MyDotEmail)
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MyDotEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C4AccountName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

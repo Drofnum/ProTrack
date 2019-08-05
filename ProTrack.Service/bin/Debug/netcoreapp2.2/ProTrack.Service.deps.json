@@ -1,14 +1,16 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "2d39624a494ccd975659ebe8479ce32c1995aad1"
+    "signature": "a245b5e7b5e546c95141672a3ce1aded4fe19014"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.2": {
       "ProTrack.Service/1.0.0": {
         "dependencies": {
-          "ProTrack.Data": "1.0.0"
+          "ProTrack.Data": "1.0.0",
+          "Sendgrid": "9.11.0",
+          "Microsoft.AspNetCore.Identity.UI": "2.2.0.0"
         },
         "runtime": {
           "ProTrack.Service.dll": {}
@@ -988,6 +990,17 @@
           }
         }
       },
+      "Sendgrid/9.11.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/SendGrid.dll": {
+            "assemblyVersion": "9.11.0.0",
+            "fileVersion": "9.11.0.0"
+          }
+        }
+      },
       "System.Buffers/4.5.0": {},
       "System.Collections/4.0.11": {
         "dependencies": {
@@ -1310,6 +1323,14 @@
         },
         "runtime": {
           "ProTrack.Data.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Identity.UI/2.2.0.0": {
+        "runtime": {
+          "Microsoft.AspNetCore.Identity.UI.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.18316"
+          }
         }
       },
       "Microsoft.AspNetCore.Mvc.ViewFeatures.Reference/2.2.0.0": {
@@ -1867,6 +1888,13 @@
       "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
       "hashPath": "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
     },
+    "Sendgrid/9.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I3VdLmsDbqazS5k8OsMAuKvnZz3YruNQxOACfVMDdrM5jjlQE/jOoaNJXcZEG+49TbanCVvOldE56pbKxdiVGA==",
+      "path": "sendgrid/9.11.0",
+      "hashPath": "sendgrid.9.11.0.nupkg.sha512"
+    },
     "System.Buffers/4.5.0": {
       "type": "package",
       "serviceable": true,
@@ -2156,6 +2184,11 @@
     },
     "ProTrack.Data/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.AspNetCore.Identity.UI/2.2.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     },

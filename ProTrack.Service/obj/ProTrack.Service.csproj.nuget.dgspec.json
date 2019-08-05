@@ -136,6 +136,10 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
+            },
+            "Sendgrid": {
+              "target": "Package",
+              "version": "[9.11.0, )"
             }
           },
           "imports": [

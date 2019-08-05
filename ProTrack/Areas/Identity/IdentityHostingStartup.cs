@@ -21,9 +21,16 @@ namespace ProTrack.Areas.Identity
                 options.UseSqlServer(
                     context.Configuration.GetConnectionString("AppContextConnection")));
 
-                services.AddDefaultIdentity<ApplicationUser>()
+                services.AddDefaultIdentity<ApplicationUser>(config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+                services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromHours(3));
+
             });
         }
     }
