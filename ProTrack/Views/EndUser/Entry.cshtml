@@ -1,6 +1,6 @@
 ﻿@model ProTrack.Models.EndUser.EndUserEntryModel
 @{
-    ViewData["Title"] = "Entry";
+    ViewData["Title"] = "My Devices";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,7 +19,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4 form-group">
-                    <a asp-controller="Location" asp-action="Create" type="button" value="Create Location" class="btn btn-primary">Add New Location</a>
+                    <a asp-controller="Location" asp-action="Create" type="button" value="Create Location" class="btn btn-primary">Create New Location</a>
                 </div>
             </div>
         </form>
@@ -42,10 +42,10 @@
             </div>
             <div class="row">
                 <div class="col-md-4 form-group">
-                    <input type="submit" value="Add" id="addBtn" class="btn btn-primary" />
+                    <input type="submit" value="Add Device" id="addBtn" class="btn btn-primary" />
                 </div>
                 <div class="col-md-4 form-group">
-                    <a asp-controller="Products" asp-action="Create" type="button" value="New Device" class="btn btn-primary">Create New Device</a>
+                    <a asp-controller="Products" asp-action="Create" type="button" value="New Device"class="btn btn-primary">Create New Device</a>
                 </div>
             </div>
             <input asp-for="LocationId" name="LocationId" id="deviceLocation" type="hidden" />
@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<table class="table">
+<table id="deviceTable">
     <thead>
         <tr>
             <th>

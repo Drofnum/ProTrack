@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProTrack.Data;
 using ProTrack.Data.Models;
-using ProTrack.Models.Display;
 using ProTrack.Models.Search;
 
 namespace ProTrack.Controllers
@@ -32,12 +31,12 @@ namespace ProTrack.Controllers
                                               orderby p.ProductName
                                               select p.ProductName;
 
-            var devices = from d in _context.Devices
-                          select d;
+            IQueryable<Device> devices = _context.Devices;
 
             if (!String.IsNullOrEmpty(emailSearchString))
             {
-                devices = devices.Where(s => s.Location.MyDotEmail.Contains(emailSearchString));
+                var userEmail = _userManager.Users.Where(u => u.Email.Contains(emailSearchString)).Select(u => u.Id).FirstOrDefault();
+                devices = devices.Where(s => s.Location.ApplicationUser == userEmail);
             }
             if (!String.IsNullOrEmpty(productSearchString))
             {
@@ -45,7 +44,7 @@ namespace ProTrack.Controllers
             }
             var areNoResults = (!string.IsNullOrEmpty(productSearchString) && !devices.Any());
 
-            var deviceListing = devices.Select(device => new DeviceListingModel
+            var deviceListing = devices.Select(device => new SearchListingModel
             {
                 Id = device.Id,
                 ManufacturerName = device.Product.Manufacturer.ManufacturerName,
@@ -54,9 +53,9 @@ namespace ProTrack.Controllers
                 Firmware = device.Firmware,
                 Quantity = device.Quantity,
                 LocationName = device.Location.LocationName,
-                Email = device.Location.MyDotEmail
+                Email = _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser).Select(u => u.Email).FirstOrDefault()
 
-            });
+        });
 
             var model = new SearchResultModel
             {
@@ -68,42 +67,10 @@ namespace ProTrack.Controllers
             return View(model);
         }
 
-        public IActionResult Results(string searchQuery)
-        {
-            if (searchQuery == null)
-            {
-                searchQuery = " ";
-            }
-            var devices = _deviceService.GetDeviceByName(searchQuery);
-
-            var areNoResults = (!string.IsNullOrEmpty(searchQuery) && !devices.Any());
-            var userId = _userManager.GetUserId(User);
-
-            var deviceListing = devices.Select(device => new DeviceListingModel
-            {
-                Id = device.Id,
-                ManufacturerName = device.Product.Manufacturer.ManufacturerName,
-                ProductName = device.Product.ProductName,
-                MacAddress = device.MacAddress,
-                Firmware = device.Firmware,
-                Quantity = device.Quantity,
-                LocationName = device.Location.LocationName,
-                Email = device.Location.MyDotEmail
-
-            });
-
-            var model = new SearchResultModel
-            {
-                Devices = deviceListing,
-                EmptySearchResults = areNoResults
-            };
-            return View(model);
-        }
-
         [HttpPost]
         public IActionResult Search(string searchQuery)
         {
             return RedirectToAction("Results", new { searchQuery });
-        }        
+        }
     }
 }

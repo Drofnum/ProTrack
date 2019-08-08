@@ -9,7 +9,7 @@
 
 <form asp-controller="Search" asp-action="Index" method="get">
     <p>
-        <select asp-for="productSearchString" asp-items="Model.Products">
+        Select Product: <select asp-for="productSearchString" asp-items="Model.Products">
             <option value="">All</option>
         </select>
 

@@ -4,7 +4,6 @@ using ProTrack.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProTrack.Service
@@ -31,8 +30,7 @@ namespace ProTrack.Service
 
         public IEnumerable<Device> GetAll()
         {
-            return _context.Devices
-                .Include(d => d.Product);
+            return _context.Devices;
 
             
         }

@@ -2,36 +2,38 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 .navbar {
@@ -61,23 +63,134 @@ button.accept-policy {
     font-weight: bold;
 }
 
+/*Device tables*/
+#deviceTable {
+    font-family: Roboto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    #deviceTable td, #deviceTable th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #deviceTable tr:hover {
+        background-color: rgba(100, 0, 0, .5)
+    }
+
+    #deviceTable th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #808080;
+    }
+
+/*Button Styles*/
+
+#createBtn {
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #525252), color-stop(1, #000000));
+    background: -moz-linear-gradient(top, #525252 5%, #000000 100%);
+    background: -webkit-linear-gradient(top, #525252 5%, #000000 100%);
+    background: -o-linear-gradient(top, #525252 5%, #000000 100%);
+    background: -ms-linear-gradient(top, #525252 5%, #000000 100%);
+    background: linear-gradient(to bottom, #525252 5%, #000000 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#525252', endColorstr='#000000',GradientType=0);
+    background-color: #525252;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid #262626;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #000000;
+}
+
+#createBtn:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #000000), color-stop(1, #525252));
+    background: -moz-linear-gradient(top, #000000 5%, #525252 100%);
+    background: -webkit-linear-gradient(top, #000000 5%, #525252 100%);
+    background: -o-linear-gradient(top, #000000 5%, #525252 100%);
+    background: -ms-linear-gradient(top, #000000 5%, #525252 100%);
+    background: linear-gradient(to bottom, #000000 5%, #525252 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#525252',GradientType=0);
+    background-color: #000000;
+}
+
+    #createBtn:active {
+        position: relative;
+        top: 1px;
+    }
+
+#addBtn {
+    -moz-box-shadow: inset 0px 1px 0px 0px #ff1500;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ff1500;
+    box-shadow: inset 0px 1px 0px 0px #ff1500;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #990a00), color-stop(1, #5c0800));
+    background: -moz-linear-gradient(top, #990a00 5%, #5c0800 100%);
+    background: -webkit-linear-gradient(top, #990a00 5%, #5c0800 100%);
+    background: -o-linear-gradient(top, #990a00 5%, #5c0800 100%);
+    background: -ms-linear-gradient(top, #990a00 5%, #5c0800 100%);
+    background: linear-gradient(to bottom, #990a00 5%, #5c0800 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#990a00', endColorstr='#5c0800',GradientType=0);
+    background-color: #990a00;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid #850900;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #000000;
+}
+
+    #addBtn:hover {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #5c0800), color-stop(1, #990a00));
+        background: -moz-linear-gradient(top, #5c0800 5%, #990a00 100%);
+        background: -webkit-linear-gradient(top, #5c0800 5%, #990a00 100%);
+        background: -o-linear-gradient(top, #5c0800 5%, #990a00 100%);
+        background: -ms-linear-gradient(top, #5c0800 5%, #990a00 100%);
+        background: linear-gradient(to bottom, #5c0800 5%, #990a00 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c0800', endColorstr='#990a00',GradientType=0);
+        background-color: #5c0800;
+    }
+
+    #addBtn:active {
+        position: relative;
+        top: 1px;
+    }
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
 }
