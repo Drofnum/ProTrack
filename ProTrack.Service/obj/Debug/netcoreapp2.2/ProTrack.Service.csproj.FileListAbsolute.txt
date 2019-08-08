@@ -28,3 +28,5 @@ C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\Pr
 C:\Users\echao\source\repos\ProTrack\ProTrack.Service\obj\Debug\netcoreapp2.2\ProTrack.Service.pdb
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Identity.UI.dll
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Identity.UI.xml
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\echao\source\repos\ProTrack\ProTrack.Service\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Identity.UI.xml

@@ -3,10 +3,10 @@
     <div class="container body-content">
         <div class="row sectionHeader">
             <div class="sectionHeading">
-                <span>Search Results for: @Model.SearchQuery</span>
+                <span>Search Results for: </span>
                 <form asp-controller="Search" asp-action="Search" method="post">
                     <div class="searchForm">
-                        <input asp-for="SearchQuery" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)" />
+                        <input asp-for="emailSearchString" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)" />
                         <button type="submit" class="btn button-forumSearch">
                             <i class="material-icons">search</i>
                         </button>
@@ -77,7 +77,7 @@
         <div class="noResults">
             <i class="material-icons md-72">question_answer</i>
             <h3>
-                No search results found for @Model.SearchQuery! <br />
+                No search results found! <br />
             </h3>
         </div>
 

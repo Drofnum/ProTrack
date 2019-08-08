@@ -1,0 +1,89 @@
+﻿@model ProTrack.Models.Search.SearchResultModel
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Search</h1>
+
+<form asp-controller="Search" asp-action="Index" method="get">
+    <p>
+        <select asp-for="productSearchString" asp-items="Model.Products">
+            <option value="">All</option>
+        </select>
+
+        Email: <input type="text" name="emailSearchString" />
+               <button type="submit" class="btn button-forumSearch">
+                   <i class="material-icons">search</i>
+               </button>
+    </p>
+</form>
+@if (Model.Devices.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Manufacturer
+                </th>
+                <th>
+                    Model
+                </th>
+                <th>
+                    Firmware
+                </th>
+                <th>
+                    MAC Address
+                </th>
+                <th>
+                    Location Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Devices)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManufacturerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firmware)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MacAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LocationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (@Model.EmptySearchResults)
+{
+    <div class="noResults">
+        <i class="material-icons md-72">error</i>
+        <h3>
+            No search results found! <br />
+        </h3>
+    </div>
+
+}

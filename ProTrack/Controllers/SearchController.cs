@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ProTrack.Data;
 using ProTrack.Data.Models;
 using ProTrack.Models.Display;
@@ -22,6 +24,48 @@ namespace ProTrack.Controllers
             _deviceService = deviceService;
             _userManager = userManager;
             _context = context;
+        }
+
+        public async Task<IActionResult> Index(string emailSearchString, string productSearchString)
+        {
+            IQueryable<string> productQuery = from p in _context.Products
+                                              orderby p.ProductName
+                                              select p.ProductName;
+
+            var devices = from d in _context.Devices
+                          select d;
+
+            if (!String.IsNullOrEmpty(emailSearchString))
+            {
+                devices = devices.Where(s => s.Location.MyDotEmail.Contains(emailSearchString));
+            }
+            if (!String.IsNullOrEmpty(productSearchString))
+            {
+                devices = devices.Where(p => p.Product.ProductName.Contains(productSearchString));
+            }
+            var areNoResults = (!string.IsNullOrEmpty(productSearchString) && !devices.Any());
+
+            var deviceListing = devices.Select(device => new DeviceListingModel
+            {
+                Id = device.Id,
+                ManufacturerName = device.Product.Manufacturer.ManufacturerName,
+                ProductName = device.Product.ProductName,
+                MacAddress = device.MacAddress,
+                Firmware = device.Firmware,
+                Quantity = device.Quantity,
+                LocationName = device.Location.LocationName,
+                Email = device.Location.MyDotEmail
+
+            });
+
+            var model = new SearchResultModel
+            {
+                Devices = deviceListing,
+                Products = new SelectList(await productQuery.Distinct().ToListAsync()),
+                EmptySearchResults = areNoResults                
+            };
+
+            return View(model);
         }
 
         public IActionResult Results(string searchQuery)
@@ -51,7 +95,6 @@ namespace ProTrack.Controllers
             var model = new SearchResultModel
             {
                 Devices = deviceListing,
-                SearchQuery = searchQuery,
                 EmptySearchResults = areNoResults
             };
             return View(model);
