@@ -13,15 +13,20 @@
             <option value="">All</option>
         </select>
 
+        Name: <input type="text" name="nameSearchString" />
+        <button type="submit" class="btn">
+            <i class="material-icons">search</i>
+        </button>
+
         Email: <input type="text" name="emailSearchString" />
-               <button type="submit" class="btn button-forumSearch">
-                   <i class="material-icons">search</i>
-               </button>
+        <button type="submit" class="btn">
+            <i class="material-icons">search</i>
+        </button>
     </p>
 </form>
-@if (Model.Devices.Any())
+@if (!Model.EmptySearchResults)
 {
-    <table class="table">
+    <table class="table" id="deviceTable">
         <thead>
             <tr>
                 <th>
@@ -40,34 +45,39 @@
                     Location Name
                 </th>
                 <th>
+                    Name
+                </th>
+                <th>
                     Email
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Devices)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ManufacturerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Firmware)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MacAddress)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firmware)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MacAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            </tr>
             }
         </tbody>
     </table>

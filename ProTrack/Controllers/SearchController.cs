@@ -25,24 +25,52 @@ namespace ProTrack.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string emailSearchString, string productSearchString)
+        public async Task<IActionResult> Index(string emailSearchString, string productSearchString, string nameSearchString)
         {
             IQueryable<string> productQuery = from p in _context.Products
                                               orderby p.ProductName
                                               select p.ProductName;
 
             IQueryable<Device> devices = _context.Devices;
-
+            var areNoResults = true;
+            string userId = null;
             if (!String.IsNullOrEmpty(emailSearchString))
             {
                 var userEmail = _userManager.Users.Where(u => u.Email.Contains(emailSearchString)).Select(u => u.Id).FirstOrDefault();
-                devices = devices.Where(s => s.Location.ApplicationUser == userEmail);
+                if (!String.IsNullOrEmpty(userEmail))
+                {
+                    devices = devices.Where(s => s.Location.ApplicationUser == userEmail);
+                    areNoResults = false;
+                }
             }
             if (!String.IsNullOrEmpty(productSearchString))
             {
                 devices = devices.Where(p => p.Product.ProductName.Contains(productSearchString));
+                areNoResults = false;
             }
-            var areNoResults = (!string.IsNullOrEmpty(productSearchString) && !devices.Any());
+            if (!String.IsNullOrEmpty(nameSearchString))
+            {
+                var userFirstName = _userManager.Users.Where(u => u.FirstName.Contains(nameSearchString)).Select(u => u.Id).FirstOrDefault();
+                var userLastName = _userManager.Users.Where(u => u.LastName.Contains(nameSearchString)).Select(u => u.Id).FirstOrDefault();
+                if (!String.IsNullOrEmpty(userFirstName))
+                {
+                    userId = userFirstName;
+                    areNoResults = false;
+                }
+                if (!String.IsNullOrEmpty(userLastName))
+                {
+                    userId = userLastName;
+                    areNoResults = false;
+                }
+                devices = devices.Where(s => s.Location.ApplicationUser == userId);
+                
+            }
+            if (String.IsNullOrEmpty(emailSearchString) && String.IsNullOrEmpty(productSearchString) && String.IsNullOrEmpty(nameSearchString))
+            {
+                areNoResults = false;
+            }
+
+            
 
             var deviceListing = devices.Select(device => new SearchListingModel
             {
@@ -53,15 +81,17 @@ namespace ProTrack.Controllers
                 Firmware = device.Firmware,
                 Quantity = device.Quantity,
                 LocationName = device.Location.LocationName,
+                FullName = _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser).Select(u => u.FirstName).FirstOrDefault() + " " +
+                            _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser).Select(u => u.LastName).FirstOrDefault(),
                 Email = _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser).Select(u => u.Email).FirstOrDefault()
 
-        });
+            });
 
             var model = new SearchResultModel
             {
                 Devices = deviceListing,
                 Products = new SelectList(await productQuery.Distinct().ToListAsync()),
-                EmptySearchResults = areNoResults                
+                EmptySearchResults = areNoResults
             };
 
             return View(model);

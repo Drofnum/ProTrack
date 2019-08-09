@@ -65,7 +65,7 @@ button.accept-policy {
 
 /*Device tables*/
 #deviceTable {
-    font-family: Roboto;
+    font-family: Roboto-Mono;
     border-collapse: collapse;
     width: 100%;
 }
@@ -80,6 +80,28 @@ button.accept-policy {
     }
 
     #deviceTable th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #808080;
+    }
+
+#locationTable {
+    font-family: Roboto-Mono;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    #locationTable td, #locationTable th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #locationTable tr:hover {
+        background-color: rgba(100, 0, 0, .5)
+    }
+
+    #locationTable th {
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;

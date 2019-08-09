@@ -11,5 +11,6 @@
         public string ProductName { get; set; }
         public string LocationName { get; set; }
         public string Email { get; set; }
+        public string FullName { get; set; }
     }
 }
