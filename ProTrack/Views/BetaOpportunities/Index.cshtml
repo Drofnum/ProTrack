@@ -1,0 +1,50 @@
+﻿@model ProTrack.Models.BetaOpportunities.BetaIndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Beta Opportunities</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" type="button" value="Create" id="addBtn">Create Beta</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BetasList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Apply" asp-route-id="@item.Id"> Apply </a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">| Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

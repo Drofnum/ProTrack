@@ -40,14 +40,17 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <ul class="navbar-nav nav">
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="EndUser" asp-action="Entry">My Devices</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Location" asp-action="Manage">My Locations</a>
-                            </li>
-                        </ul>
+                    <ul class="navbar-nav nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="EndUser" asp-action="Entry">My Devices</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="Location" asp-action="Manage">My Locations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="BetaOpportunities" asp-action="Index">Beta Opportunities</a>
+                        </li>
+                    </ul>
                         @if (User.IsInRole("Admin"))
                         {
                             <div class="dropdown">

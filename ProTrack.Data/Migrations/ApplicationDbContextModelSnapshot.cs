@@ -140,8 +140,14 @@ namespace ProTrack.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("City");
+
+                    b.Property<string>("CompanyName");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Country");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -151,6 +157,8 @@ namespace ProTrack.Data.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("IsActive");
+
+                    b.Property<bool>("IsInternal");
 
                     b.Property<string>("LastName");
 
@@ -170,7 +178,13 @@ namespace ProTrack.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("PostalCode");
+
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("State");
+
+                    b.Property<string>("StreetAddress");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -188,6 +202,50 @@ namespace ProTrack.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("ProTrack.Data.Models.BetaOpportunity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DriverUrl");
+
+                    b.Property<string>("FirmwareUrl");
+
+                    b.Property<string>("LongDescription");
+
+                    b.Property<string>("ProjectName");
+
+                    b.Property<string>("QuickStartGuideUrl");
+
+                    b.Property<string>("ShortDescription");
+
+                    b.Property<string>("UserGuideUrl");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BetaOpportunity");
+                });
+
+            modelBuilder.Entity("ProTrack.Data.Models.BetaOptIn", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BetaOpportunityId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BetaOpportunityId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BetaOptIn");
                 });
 
             modelBuilder.Entity("ProTrack.Data.Models.Device", b =>
@@ -326,9 +384,20 @@ namespace ProTrack.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("ProTrack.Data.Models.BetaOptIn", b =>
+                {
+                    b.HasOne("ProTrack.Data.Models.BetaOpportunity", "BetaOpportunity")
+                        .WithMany()
+                        .HasForeignKey("BetaOpportunityId");
+
+                    b.HasOne("ProTrack.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("ProTrack.Data.Models.Device", b =>
                 {
-                    b.HasOne("ProTrack.Data.Models.Location")
+                    b.HasOne("ProTrack.Data.Models.Location", "Location")
                         .WithMany("Devices")
                         .HasForeignKey("LocationId");
 

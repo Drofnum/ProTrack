@@ -25,6 +25,8 @@ namespace ProTrack.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<BetaOpportunity> BetaOpportunity { get; set; }
+        public DbSet<BetaOptIn> BetaOptIn { get; set; }
 
     }
 }
