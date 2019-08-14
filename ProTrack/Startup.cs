@@ -106,9 +106,32 @@ namespace ProTrack
             {
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
+
+            var roleCheckActive = await RoleManager.RoleExistsAsync("Active");
+            if (!roleCheckActive)
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Active"));
+            }
+
+            var roleCheckPending = await RoleManager.RoleExistsAsync("PendingActivation");
+            if (!roleCheckPending)
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("PendingActivation"));
+            }
+
+            var roleCheckInactive = await RoleManager.RoleExistsAsync("Inactive");
+            if (!roleCheckInactive)
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Inactive"));
+            }
+
             //Assign Admin to main user
             ApplicationUser user = await UserManager.FindByEmailAsync("ajmunford@gmail.com");
             await UserManager.AddToRoleAsync(user, "Admin");
+            await UserManager.AddToRoleAsync(user, "Active");
+
+            ApplicationUser user2 = await UserManager.FindByEmailAsync("echaosaj@gmail.com");
+            await UserManager.AddToRoleAsync(user2, "PendingActivation");
         }
     }
 }

@@ -40,17 +40,24 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <ul class="navbar-nav nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="EndUser" asp-action="Entry">My Devices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Location" asp-action="Manage">My Locations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="BetaOpportunities" asp-action="Index">Beta Opportunities</a>
-                        </li>
-                    </ul>
+                        <ul class="navbar-nav nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="EndUser" asp-action="Entry">My Devices</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Location" asp-action="Manage">My Locations</a>
+                            </li>
+                            @if (User.IsInRole("Active") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-controller="Betas" asp-action="MyBetas">My Betas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-controller="BetaOpportunities" asp-action="Index">Beta Opportunities</a>
+                                </li>
+
+                            }
+                        </ul>
                         @if (User.IsInRole("Admin"))
                         {
                             <div class="dropdown">
@@ -58,6 +65,7 @@
                                 <div class="dropdown-menu">
                                     <p class="dropdown-header">Admin</p>
                                     <a class="dropdown-item" asp-controller="Search" asp-action="Index">Search</a>
+                                    <a class="dropdown-item" asp-controller="Betas" asp-action="Applicants">Beta Applicants</a>
                                     <a class="dropdown-item" asp-controller="" asp-action="">More to come...</a>
                                 </div>
                             </div>

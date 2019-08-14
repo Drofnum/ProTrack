@@ -235,6 +235,8 @@ namespace ProTrack.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Accepted");
+
                     b.Property<int?>("BetaOpportunityId");
 
                     b.Property<string>("UserId");

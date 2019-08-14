@@ -1,0 +1,58 @@
+﻿@model ProTrack.Data.Models.BetaOpportunity
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Thanks for applying for @Html.DisplayFor(model => model.ProjectName)!</h1>
+<h3>You will be contacted shortly if you are accepted in to this beta opportunity</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Project Name:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+        <dt class="col-sm-2">
+            Short Description:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ShortDescription)
+        </dd>
+        <dt class="col-sm-2">
+            Long Description:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LongDescription)
+        </dd>
+        @if (Model.QuickStartGuideUrl != null)
+        {
+            <dt class="col-sm-2">
+                Quick Start Guide:
+            </dt>
+            <dd class="col-sm-10">
+                <a href="@Model.QuickStartGuideUrl">
+                    @Html.DisplayFor(model => model.QuickStartGuideUrl)
+                </a>
+            </dd>
+        }
+        @if (Model.UserGuideUrl != null)
+        {
+            <dt class="col-sm-2">
+                User Guide:
+            </dt>
+            <dd class="col-sm-10">
+                <a href="@Model.UserGuideUrl">
+                    @Html.DisplayFor(model => model.UserGuideUrl)
+                </a>
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

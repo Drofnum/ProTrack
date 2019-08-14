@@ -1,0 +1,37 @@
+﻿@model ProTrack.Models.BetaOpportunities.BetaIndexModel
+@{
+    ViewData["Title"] = "MyBetas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>My Betas</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BetasList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

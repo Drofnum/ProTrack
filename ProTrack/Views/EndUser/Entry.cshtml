@@ -11,7 +11,6 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <form asp-action="GetDevices" method="post" id="locationForm">
             <div class="form-group">
-                @*You are using asp-for Location so that is what will be sent to the controller*@
                 <label asp-for="Location" class="control-label">Location</label>
                 <select name="Id" asp-items="Model.LocationList" class="form-control" id="locationList">
                     <option selected="selected" disabled value="">Select</option>

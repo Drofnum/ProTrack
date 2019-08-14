@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using ProTrack.Data;
 using ProTrack.Data.Models;
 using ProTrack.Models.BetaOpportunities;
 
 namespace ProTrack.Controllers
 {
+    [Authorize(Roles = "Admin, Active")]
     public class BetaOpportunitiesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,16 +28,19 @@ namespace ProTrack.Controllers
         }
 
         // GET: BetaOpportunities
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
             var userId = _userManager.GetUserId(User);
             var betasList = _context.BetaOpportunity
                 .Select(b => new BetaListingModel
                 {
                     Id = b.Id,
                     ProjectName = b.ProjectName,
-                    ShortDescription = b.ShortDescription
+                    ShortDescription = b.ShortDescription,
+                    OptedIn = _context.BetaOptIn.Where(o => o.BetaOpportunity.Id == b.Id && o.User == user).Any()
                 });
+
 
             var model = new BetaIndexModel
             {
@@ -41,6 +48,34 @@ namespace ProTrack.Controllers
             };
 
             return View(model);
+        }
+
+        // GET: BetaOpportunities/Apply/5
+        public async Task<IActionResult> Apply(int? id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var betaOpportunity = await _context.BetaOpportunity
+                .FirstOrDefaultAsync(m => m.Id == id);
+            var optIn = new BetaOptIn
+            {
+                BetaOpportunity = betaOpportunity,
+                User = user
+            };
+
+            _context.Add(optIn);
+            await _context.SaveChangesAsync();
+
+            if (betaOpportunity == null)
+            {
+                return NotFound();
+            }
+
+            return View(betaOpportunity);
         }
 
         // GET: BetaOpportunities/Details/5
@@ -64,7 +99,14 @@ namespace ProTrack.Controllers
         // GET: BetaOpportunities/Create
         public IActionResult Create()
         {
-            return View();
+            if (User.IsInRole("Admin"))
+            {
+                return View();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST: BetaOpportunities/Create
@@ -74,29 +116,43 @@ namespace ProTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProjectName,ShortDescription,LongDescription,DriverUrl,QuickStartGuideUrl,UserGuideUrl,FirmwareUrl")] BetaOpportunity betaOpportunity)
         {
-            if (ModelState.IsValid)
+            if (User.IsInRole("Admin"))
             {
-                _context.Add(betaOpportunity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(betaOpportunity);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(betaOpportunity);
             }
-            return View(betaOpportunity);
+            else
+            {
+                return NotFound();
+            }
         }
 
         // GET: BetaOpportunities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (User.IsInRole("Admin"))
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var betaOpportunity = await _context.BetaOpportunity.FindAsync(id);
-            if (betaOpportunity == null)
+                var betaOpportunity = await _context.BetaOpportunity.FindAsync(id);
+                if (betaOpportunity == null)
+                {
+                    return NotFound();
+                }
+                return View(betaOpportunity);
+            }
+            else
             {
                 return NotFound();
             }
-            return View(betaOpportunity);
         }
 
         // POST: BetaOpportunities/Edit/5
@@ -106,50 +162,64 @@ namespace ProTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectName,ShortDescription,LongDescription,DriverUrl,QuickStartGuideUrl,UserGuideUrl,FirmwareUrl")] BetaOpportunity betaOpportunity)
         {
-            if (id != betaOpportunity.Id)
+            if (User.IsInRole("Admin"))
+            {
+                if (id != betaOpportunity.Id)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(betaOpportunity);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!BetaOpportunityExists(betaOpportunity.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(betaOpportunity);
+            }
+            else
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(betaOpportunity);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BetaOpportunityExists(betaOpportunity.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(betaOpportunity);
         }
 
         // GET: BetaOpportunities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (User.IsInRole("Admin"))
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var betaOpportunity = await _context.BetaOpportunity
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (betaOpportunity == null)
+                {
+                    return NotFound();
+                }
+
+                return View(betaOpportunity);
+            }
+            else
             {
                 return NotFound();
             }
-
-            var betaOpportunity = await _context.BetaOpportunity
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (betaOpportunity == null)
-            {
-                return NotFound();
-            }
-
-            return View(betaOpportunity);
         }
 
         // POST: BetaOpportunities/Delete/5
@@ -167,5 +237,7 @@ namespace ProTrack.Controllers
         {
             return _context.BetaOpportunity.Any(e => e.Id == id);
         }
+
+
     }
 }

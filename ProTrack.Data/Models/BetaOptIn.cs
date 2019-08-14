@@ -9,5 +9,6 @@ namespace ProTrack.Data.Models
         public int Id { get; set; }
         public BetaOpportunity BetaOpportunity { get; set; }
         public ApplicationUser User { get; set; }
+        public int Accepted { get; set; }
     }
 }

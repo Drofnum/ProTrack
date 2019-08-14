@@ -19,5 +19,6 @@ namespace ProTrack.Models.BetaOpportunities
         public string QuickStartGuideUrl { get; set; }
         public string UserGuideUrl { get; set; }
         public string FirmwareUrl { get; set; }
+        public bool OptedIn { get; set; }
     }
 }

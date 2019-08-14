@@ -36,8 +36,15 @@
                     @Html.DisplayFor(modelItem => item.ShortDescription)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Apply" asp-route-id="@item.Id"> Apply </a>
+                    @if (!item.OptedIn)
+                    {
+                        <a asp-action="Apply" asp-route-id="@item.Id">Apply</a>
+                    }
+                    else
+                    {
+                        <span><b>Applied</b></span>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">| Details</a>
                     @if (User.IsInRole("Admin"))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">| Edit</a>

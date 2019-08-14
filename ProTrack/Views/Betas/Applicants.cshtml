@@ -1,0 +1,91 @@
+﻿@model  ProTrack.Models.Betas.ApplicantIndexModel
+@{
+    ViewData["Title"] = "Applicants";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Applicants</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="GetBetas" method="post" id="betasForm">
+            <div class="form-group">
+                <label asp-for="BetaOpportunity" class="control-label">Location</label>
+                <select name="Id" asp-items="Model.BetasList" class="form-control" id="betaList">
+                    <option selected="selected" disabled value="">Select</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table id="deviceTable">
+    <thead>
+        <tr>
+            <th>
+                Project Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Applicants Name
+            </th>
+            <th>
+                Applicants Email
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ApplicantList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @if (item.Accepted == 0)
+                    {
+                        <a asp-action="Approve" asp-route-id="@item.Id">Approve |</a>
+                        <a asp-action="Reject" asp-route-id="@item.Id">Reject |</a>
+                    }
+                    @if (item.Accepted == 1)
+                    {
+                        <span><b>Approved</b></span>
+                    }
+                    @if (item.Accepted == 3)
+                    {
+                        <span><b>Rejected</b></span>
+                    }
+                        <a asp-action="ApplicantDetails" asp-route-email="@item.Email" asp-route-id="@item.BetaOpportunityId">Applicant Details</a>
+                    </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var loc = $('#betaList').val();
+            $('#betaId').val(loc);
+        });
+
+        $('#betaList').change(function () {
+            $('#betasForm').submit();
+        });
+
+    </script>
+}
