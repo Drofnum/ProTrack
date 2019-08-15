@@ -29,7 +29,9 @@
                     @Html.DisplayFor(modelItem => item.ShortDescription)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="SubmitBug" asp-route-id="@item.Id">Submit Bug</a> |
+                    <a asp-action="SubmitFeedback" asp-route-id="@item.Id">Submit Feedback</a>
                 </td>
             </tr>
         }

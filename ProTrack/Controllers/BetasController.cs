@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,7 @@ namespace ProTrack.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private static readonly HttpClient _client = new HttpClient();
 
         public BetasController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
@@ -186,9 +188,30 @@ namespace ProTrack.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> SubmitBug(SubmitBugListingModel model)
+        {
+            var values = new Dictionary<string, string>
+                {
+                    {"title", model.BugSummary },
+                    {"category", "8" },
+                    {"raw", model.BugDescription },
+                    {"api_key", "39946de7bedac9af2676dfca3be92ae943e85ea2dd9f35e12b7ecb6a732b2747" },
+                    {"api_username", "amunford" }
+                };
+            var content = new FormUrlEncodedContent(values);
+
+            var response = await _client.PostAsync("http://control4discourse.westus.cloudapp.azure.com/posts.json", content);
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            return View(model);
+        }
+
+        [HttpPost]
         public IActionResult GetBetas(int Id)
         {
             return RedirectToAction("Applicants", "Betas", new { id = Id });
         }
+
+
     }
 }

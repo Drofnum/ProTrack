@@ -8,8 +8,8 @@
 <h1>@Html.DisplayFor(model => model.ProjectName) Bug report</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProjectName" class="control-label"></label>
@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BugDescription" class="control-label"></label>
-                <input asp-for="BugDescription" class="form-control" />
+                <textarea asp-for="BugDescription" class="form-control"></textarea>
                 <span asp-validation-for="BugDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,6 +39,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="MyBetas">Back to List</a>
 </div>
 
