@@ -130,8 +130,8 @@ namespace ProTrack
             await UserManager.AddToRoleAsync(user, "Admin");
             await UserManager.AddToRoleAsync(user, "Active");
 
-            ApplicationUser user2 = await UserManager.FindByEmailAsync("echaosaj@gmail.com");
-            await UserManager.AddToRoleAsync(user2, "PendingActivation");
+            //ApplicationUser user2 = await UserManager.FindByEmailAsync("echaosaj@gmail.com");
+            //await UserManager.AddToRoleAsync(user2, "PendingActivation");
         }
     }
 }

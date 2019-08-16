@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Encodings.Web;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Atlassian.Jira;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using ProTrack.Data;
 using ProTrack.Data.Models;
 using ProTrack.Models.BetaOpportunities;
@@ -190,9 +193,22 @@ namespace ProTrack.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitBug(SubmitBugListingModel model)
         {
+            var jira = Jira.CreateRestClient("http://jira.control4.com", "User", "Password");
+            var issue = jira.CreateIssue("BETA");
+            issue.Type = "Bug";
+            issue.Summary = model.BugSummary;
+            issue.Description = model.BugDescription;
+
+            await issue.SaveChangesAsync();
+            
+
+            var getIssue = from i in jira.Issues.Queryable
+                           where i.Summary == new LiteralMatch(model.BugSummary)
+                           select i;
+
             var values = new Dictionary<string, string>
                 {
-                    {"title", model.BugSummary },
+                    {"title", "[" + "getIssue" + "]" + " " + model.BugSummary },
                     {"category", "8" },
                     {"raw", model.BugDescription },
                     {"api_key", "39946de7bedac9af2676dfca3be92ae943e85ea2dd9f35e12b7ecb6a732b2747" },
@@ -203,6 +219,20 @@ namespace ProTrack.Controllers
             var response = await _client.PostAsync("http://control4discourse.westus.cloudapp.azure.com/posts.json", content);
 
             var responseString = await response.Content.ReadAsStringAsync();
+
+            var bugUrl = Regex.Replace(model.BugSummary.ToLower(), @"\s", "-");
+
+            var submittedBug = new BugSubmittedListingModel
+            {
+                ReferenceNumber = "123",
+                ForumPostUrl = "http://control4discourse.westus.cloudapp.azure.com/t/" + "getissue" + "-" + bugUrl
+            };
+
+            return RedirectToAction("BugSubmitted", "Betas", submittedBug);
+        }
+
+        public IActionResult BugSubmitted(BugSubmittedListingModel model)
+        {
             return View(model);
         }
 

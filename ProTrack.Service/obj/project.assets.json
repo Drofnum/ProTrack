@@ -5556,25 +5556,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\amunford\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Users\\echao\\.nuget\\packages\\": {},
+    "D:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Service\\ProTrack.Service.csproj",
+      "projectUniqueName": "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Service\\ProTrack.Service.csproj",
       "projectName": "ProTrack.Service",
-      "projectPath": "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Service\\ProTrack.Service.csproj",
-      "packagesPath": "C:\\Users\\amunford\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Service\\obj\\",
+      "projectPath": "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Service\\ProTrack.Service.csproj",
+      "packagesPath": "C:\\Users\\echao\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Service\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
+        "D:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\amunford\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\echao\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -5588,8 +5588,8 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj": {
-              "projectPath": "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj"
+            "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj": {
+              "projectPath": "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj"
             }
           }
         }

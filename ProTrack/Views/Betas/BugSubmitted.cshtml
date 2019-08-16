@@ -1,0 +1,10 @@
+﻿@model ProTrack.Models.Betas.BugSubmittedListingModel
+@{
+    ViewData["Title"] = "BugSubmitted";
+}
+
+<h1>BugSubmitted</h1>
+
+<p>Bug number: @Model.ReferenceNumber</p>
+<p>Forum post: <a href="@Model.ForumPostUrl">
+    @Html.DisplayFor(model => model.ForumPostUrl)</a>
