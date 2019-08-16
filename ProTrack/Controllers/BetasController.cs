@@ -33,10 +33,12 @@ namespace ProTrack.Controllers
             _emailSender = emailSender;
         }
 
-        public async Task<IActionResult> Applicants(int id)
+        public async Task<IActionResult> Applicants(int id, string accepted, string rejected)
         {
+
             var user = await _userManager.GetUserAsync(User);
             var userId = _userManager.GetUserId(User);
+
             var betasList = _context.BetaOpportunity
                 .Select(l => new SelectListItem()
                 {
@@ -57,10 +59,41 @@ namespace ProTrack.Controllers
                     BetaOpportunityId = a.BetaOpportunity.Id
                 });
 
+            if (!string.IsNullOrEmpty(accepted) && string.IsNullOrEmpty(rejected))
+            {
+                applicantList = _context.BetaOptIn.Where(b => b.BetaOpportunity.Id == id && b.Accepted == 1)
+                .Select(a => new ApplicantListingModel
+                {
+                    Id = a.Id,
+                    Description = a.BetaOpportunity.ShortDescription,
+                    ProjectName = a.BetaOpportunity.ProjectName,
+                    FullName = a.User.FirstName + " " + a.User.LastName,
+                    Email = a.User.Email,
+                    Accepted = a.Accepted,
+                    BetaOpportunityId = a.BetaOpportunity.Id
+                });
+            }
+            if(!string.IsNullOrEmpty(rejected) && string.IsNullOrEmpty(accepted))
+            {
+                applicantList = _context.BetaOptIn.Where(b => b.BetaOpportunity.Id == id && b.Accepted == 3)
+                .Select(a => new ApplicantListingModel
+                {
+                    Id = a.Id,
+                    Description = a.BetaOpportunity.ShortDescription,
+                    ProjectName = a.BetaOpportunity.ProjectName,
+                    FullName = a.User.FirstName + " " + a.User.LastName,
+                    Email = a.User.Email,
+                    Accepted = a.Accepted,
+                    BetaOpportunityId = a.BetaOpportunity.Id
+                });
+            }
+
+
             var model = new ApplicantIndexModel
             {
                 ApplicantList = applicantList,
-                BetasList = betasList
+                BetasList = betasList,
+                AcceptedChecked = !string.IsNullOrEmpty(accepted)
             };
             return View(model);
         }
@@ -71,7 +104,7 @@ namespace ProTrack.Controllers
             var betasList = _context.BetaOptIn.Where(u => u.User.Id == userId && u.Accepted == 1)
                 .Select(b => new BetaListingModel
                 {
-                    Id = b.Id,
+                    Id = b.BetaOpportunity.Id,
                     ProjectName = b.BetaOpportunity.ProjectName,
                     ShortDescription = b.BetaOpportunity.ShortDescription
                 });
@@ -92,10 +125,8 @@ namespace ProTrack.Controllers
                 return NotFound();
             }
 
-            var betaId = _context.BetaOptIn.Where(m => m.Id == id)
-                .Select(m => m.BetaOpportunity.Id).FirstOrDefault();
             var betaOpportunity = await _context.BetaOpportunity
-                .FirstOrDefaultAsync(m => m.Id == betaId);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (betaOpportunity == null)
             {
                 return NotFound();
@@ -237,9 +268,9 @@ namespace ProTrack.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetBetas(int Id)
+        public IActionResult GetBetas(int Id, string accepted, string rejected)
         {
-            return RedirectToAction("Applicants", "Betas", new { id = Id });
+            return RedirectToAction("Applicants", "Betas", new { id = Id, rejected = rejected, accepted = accepted });
         }
 
 

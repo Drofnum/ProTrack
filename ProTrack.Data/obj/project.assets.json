@@ -5543,25 +5543,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\echao\\.nuget\\packages\\": {},
-    "D:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Users\\amunford\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj",
+      "projectUniqueName": "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj",
       "projectName": "ProTrack.Data",
-      "projectPath": "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj",
-      "packagesPath": "C:\\Users\\echao\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\echao\\source\\repos\\ProTrack\\ProTrack.Data\\obj\\",
+      "projectPath": "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Data\\ProTrack.Data.csproj",
+      "packagesPath": "C:\\Users\\amunford\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\amunford\\source\\repos\\ProTrack\\ProTrack.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\echao\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\amunford\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],

@@ -47,7 +47,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-controller="Location" asp-action="Manage">My Locations</a>
                             </li>
-                            @if (User.IsInRole("Active") || User.IsInRole("Admin"))
+                            @if (/*User.IsInRole("Active") || */User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-controller="Betas" asp-action="MyBetas">My Betas</a>

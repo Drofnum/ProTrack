@@ -15,6 +15,14 @@
                 <select name="Id" asp-items="Model.BetasList" class="form-control" id="betaList">
                     <option selected="selected" disabled value="">Select</option>
                 </select>
+                @if (Model.AcceptedChecked)
+                {
+                    <label asp-for="BetaOpportunity" class="checkbox-inline"><input type="checkbox" value="accepted" name="accepted" onclick="check()" checked />Show only accepted</label>
+                }
+                else
+                {
+                    <label asp-for="BetaOpportunity" class="checkbox-inline"><input type="checkbox" value="accepted" name="accepted" onclick="check()" />Show only accepted</label>
+                }
             </div>
         </form>
     </div>
@@ -86,6 +94,11 @@
         $('#betaList').change(function () {
             $('#betasForm').submit();
         });
+
+        function check() {
+            $('#betasForm').submit();
+        }
+
 
     </script>
 }

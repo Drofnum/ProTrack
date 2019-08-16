@@ -11,5 +11,6 @@ namespace ProTrack.Models.Betas
         public IEnumerable<ApplicantListingModel> ApplicantList { get; set; }
         public List<SelectListItem> BetasList { get; set; }
         public string BetaOpportunity { get; set; }
+        public bool AcceptedChecked { get; set; }
     }
 }
