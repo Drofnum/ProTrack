@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProTrack.Data;
 using ProTrack.Data.Models;
@@ -224,42 +228,99 @@ namespace ProTrack.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitBug(SubmitBugListingModel model)
         {
-            var jira = Jira.CreateRestClient("http://jira.control4.com", "User", "Password");
-            var issue = jira.CreateIssue("BETA");
-            issue.Type = "Bug";
-            issue.Summary = model.BugSummary;
-            issue.Description = model.BugDescription;
+            if (ModelState.IsValid)
+            {
+                var jiraResponse = BuildJiraIssue(model);            
 
-            await issue.SaveChangesAsync();
-            
-
-            var getIssue = from i in jira.Issues.Queryable
-                           where i.Summary == new LiteralMatch(model.BugSummary)
-                           select i;
-
-            var values = new Dictionary<string, string>
+                var values = new Dictionary<string, string>
                 {
-                    {"title", "[" + "getIssue" + "]" + " " + model.BugSummary },
+                    {"title", "[" + jiraResponse + "]" + " " + model.BugSummary },
                     {"category", "8" },
-                    {"raw", model.BugDescription },
+                    {"raw", model.BugDescription + Environment.NewLine + model.BuildNumber },
                     {"api_key", "39946de7bedac9af2676dfca3be92ae943e85ea2dd9f35e12b7ecb6a732b2747" },
                     {"api_username", "amunford" }
                 };
-            var content = new FormUrlEncodedContent(values);
+                var content = new FormUrlEncodedContent(values);
 
-            var response = await _client.PostAsync("http://control4discourse.westus.cloudapp.azure.com/posts.json", content);
+                var response = await _client.PostAsync("http://control4discourse.westus.cloudapp.azure.com/posts.json", content);
 
-            var responseString = await response.Content.ReadAsStringAsync();
+                var responseString = await response.Content.ReadAsStringAsync();
+                var bugUrl = "";
 
-            var bugUrl = Regex.Replace(model.BugSummary.ToLower(), @"\s", "-");
+                if (!string.IsNullOrEmpty(jiraResponse))
+                {
+                    var bugSummary = Regex.Replace(model.BugSummary.ToLower(), @"\s-", "");
+                    bugUrl = "http://control4discourse.westus.cloudapp.azure.com/t/" + jiraResponse + "-" + Regex.Replace(bugSummary, @"\s", "-");
+                }
+                else
+                {
+                    var bugSummary = Regex.Replace(model.BugSummary.ToLower(), @"\s-", "");
+                    bugUrl = "http://control4discourse.westus.cloudapp.azure.com/t/" + Regex.Replace(bugSummary, @"\s", "-");
+                }
+                    
+                
 
-            var submittedBug = new BugSubmittedListingModel
+                var submittedBug = new BugSubmittedListingModel
+                {
+                    ReferenceNumber = jiraResponse,
+                    ForumPostUrl = bugUrl
+                };
+
+                return RedirectToAction("BugSubmitted", "Betas", submittedBug);
+            }
+            return View(model);
+        }
+
+        private string BuildJiraIssue(SubmitBugListingModel model)
+        {
+            var jiraJson = new
             {
-                ReferenceNumber = "123",
-                ForumPostUrl = "http://control4discourse.westus.cloudapp.azure.com/t/" + "getissue" + "-" + bugUrl
+                fields = new Dictionary<string, object> {
+                {"project", new {id = "11600"} },
+                {"summary", model.BugSummary },
+                {"description", model.BugDescription + Environment.NewLine + model.BuildNumber },
+                {"issuetype", new {id = "10004"} }
+                }
             };
 
-            return RedirectToAction("BugSubmitted", "Betas", submittedBug);
+            string url = "https://jira-stage.control4.com/rest/api/2/issue/";
+            string user = "apiaccess";
+            string password = "api access for bear";
+
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            string credentials = Convert.ToBase64String(
+                Encoding.ASCII.GetBytes(user + ":" + password));
+                request.Headers[HttpRequestHeader.Authorization] = string.Format(
+                "Basic {0}", credentials);
+
+            string data = JsonConvert.SerializeObject(jiraJson);
+
+            using (var webStream = request.GetRequestStream())
+                using (var requestWriter = new StreamWriter(webStream, System.Text.Encoding.ASCII))
+            {
+                requestWriter.Write(data);
+            }
+
+            try
+            {
+                var webResponse = request.GetResponse();
+                using (var responseReader = new StreamReader(webResponse.GetResponseStream()))
+                {
+                    string response = responseReader.ReadToEnd();
+                    var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+                    var key = values["key"];
+
+                    return key;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public IActionResult BugSubmitted(BugSubmittedListingModel model)
