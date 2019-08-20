@@ -41,9 +41,15 @@ namespace ProTrack
                 o.SlidingExpiration = true;
             });
 
+            var db = Configuration.GetValue<string>("dbEndpoint", "Failed");
+            var dbUsername = Configuration.GetValue<string>("dbUsername", "Failed");
+            var dbPassword = Configuration.GetValue<string>("dbPassword", "Failed");
+
+            //services.AddDbContext<ApplicationDbContext>(options => options
+            //.UseSqlServer(Configuration.GetConnectionString("AppContextConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options => options
-            .UseSqlServer(Configuration.GetConnectionString("AppContextConnection")));
+            .UseSqlServer($"Server={db};Database=ProTrack;Trusted_Connection=True;MultipleActiveResultSets=true; User ID={dbUsername};Password={dbPassword}"));
 
             services.AddScoped<IApplicationUser, ApplicationUserService>();
             services.AddScoped<IDevice, DeviceService>();
@@ -92,6 +98,7 @@ namespace ProTrack
             });
 
             CreateUserRoles(serviceProvider).Wait();
+
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
