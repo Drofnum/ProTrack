@@ -9,7 +9,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
-COPY ["/ProTrack/ProTrack.csproj", "ProTrack/"]
+COPY ["ProTrack/ProTrack.csproj", "ProTrack/"]
 COPY ["ProTrack.Data/ProTrack.Data.csproj", "ProTrack.Data/"]
 COPY ["ProTrack.Service/ProTrack.Service.csproj", "ProTrack.Service/"]
 RUN dotnet restore "ProTrack/ProTrack.csproj"
