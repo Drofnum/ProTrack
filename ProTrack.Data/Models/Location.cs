@@ -11,7 +11,7 @@ namespace ProTrack.Data.Models
         public string MyDotEmail { get; set; }
         public string C4AccountName { get; set; }
 
-        public string ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public IEnumerable<Device> Devices { get; set; }
     }

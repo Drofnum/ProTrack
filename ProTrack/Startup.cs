@@ -1,18 +1,25 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CsvHelper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Pomelo.EntityFrameworkCore.MySql.Internal;
 using ProTrack.Data;
 using ProTrack.Data.Models;
 using ProTrack.Service;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProTrack
@@ -45,11 +52,22 @@ namespace ProTrack
             var dbUsername = Configuration.GetValue<string>("dbUsername", "Failed");
             var dbPassword = Configuration.GetValue<string>("dbPassword", "Failed");
 
-            //services.AddDbContext<ApplicationDbContext>(options => options
-            //.UseSqlServer(Configuration.GetConnectionString("AppContextConnection")));
+            /*
+            services.AddDbContext<ApplicationDbContext>(options => options
+            .UseSqlServer(Configuration.GetConnectionString("AppContextConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options => options
             .UseSqlServer($"Server={db};Database=ProTrack;Trusted_Connection=True;MultipleActiveResultSets=true; User ID={dbUsername};Password={dbPassword}"));
+            */
+
+            services.AddDbContext<ApplicationDbContext>(options => options
+            .UseMySql($"server={db};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
+            mySqlOptions =>
+            {
+                mySqlOptions.ServerVersion(new Version(8, 0, 17), ServerType.MySql)
+                .DisableBackslashEscaping();
+            }
+                ));
 
             services.AddScoped<IApplicationUser, ApplicationUserService>();
             services.AddScoped<IDevice, DeviceService>();
@@ -97,6 +115,8 @@ namespace ProTrack
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            
+            //CreateUsers(serviceProvider).Wait();
             CreateUserRoles(serviceProvider).Wait();
 
         }
@@ -133,12 +153,50 @@ namespace ProTrack
             }
 
             //Assign Admin to main user
-            ApplicationUser user = await UserManager.FindByEmailAsync("ajmunford@gmail.com");
+            ApplicationUser user = await UserManager.FindByEmailAsync("amunford@control4.com");
             await UserManager.AddToRoleAsync(user, "Admin");
             await UserManager.AddToRoleAsync(user, "Active");
 
             //ApplicationUser user2 = await UserManager.FindByEmailAsync("echaosaj@gmail.com");
             //await UserManager.AddToRoleAsync(user2, "PendingActivation");
+        }
+
+        private async Task CreateUsers(IServiceProvider serviceProvider)
+        {
+            var context = serviceProvider.GetService<ApplicationDbContext>();
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            using (var reader = new StreamReader("/Users.csv"))
+                using (var csv = new CsvReader(reader))
+            {
+                var records = new List<ApplicationUser>();
+                csv.Read();
+                csv.ReadHeader();
+                while (csv.Read())
+                {
+                    var record = new ApplicationUser
+                    {
+                        UserName = csv.GetField("Email"),
+                        Email = csv.GetField("Email"),
+                        FirstName = csv.GetField("FullName"),
+                        LastName = csv.GetField("FullName"),
+                        EmailConfirmed = true
+                    };
+                    if (!context.Users.Any(u => u.UserName == record.UserName))
+                    {
+                        var result = await UserManager.CreateAsync(record, "Super duper Mega secret passw0rd$");
+                    }
+                }
+
+            }
+        }
+
+            public void ApplyMigrations(ApplicationDbContext context)
+        {
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }

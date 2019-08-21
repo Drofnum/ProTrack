@@ -37,9 +37,9 @@ namespace ProTrack.Controllers
             if (!String.IsNullOrEmpty(emailSearchString))
             {
                 var userEmail = _userManager.Users.Where(u => u.Email.Contains(emailSearchString)).Select(u => u.Id).FirstOrDefault();
-                if (!String.IsNullOrEmpty(userEmail))
+                devices = devices.Where(s => s.Location.ApplicationUser.Email.Contains(emailSearchString));
+                if (devices.Any())
                 {
-                    devices = devices.Where(s => s.Location.ApplicationUser == userEmail);
                     areNoResults = false;
                 }
             }
@@ -50,19 +50,11 @@ namespace ProTrack.Controllers
             }
             if (!String.IsNullOrEmpty(nameSearchString))
             {
-                var userFirstName = _userManager.Users.Where(u => u.FirstName.Contains(nameSearchString)).Select(u => u.Id).FirstOrDefault();
-                var userLastName = _userManager.Users.Where(u => u.LastName.Contains(nameSearchString)).Select(u => u.Id).FirstOrDefault();
-                if (!String.IsNullOrEmpty(userFirstName))
+                devices = devices.Where(s => s.Location.ApplicationUser.FirstName.Contains(nameSearchString) || s.Location.ApplicationUser.FirstName.Contains(nameSearchString));
+                if (devices.Any())
                 {
-                    userId = userFirstName;
                     areNoResults = false;
                 }
-                if (!String.IsNullOrEmpty(userLastName))
-                {
-                    userId = userLastName;
-                    areNoResults = false;
-                }
-                devices = devices.Where(s => s.Location.ApplicationUser == userId);
                 
             }
             if (String.IsNullOrEmpty(emailSearchString) && String.IsNullOrEmpty(productSearchString) && String.IsNullOrEmpty(nameSearchString))
@@ -81,9 +73,9 @@ namespace ProTrack.Controllers
                 Firmware = device.Firmware,
                 Quantity = device.Quantity,
                 LocationName = device.Location.LocationName,
-                FullName = _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser).Select(u => u.FirstName).FirstOrDefault() + " " +
-                            _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser).Select(u => u.LastName).FirstOrDefault(),
-                Email = _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser).Select(u => u.Email).FirstOrDefault()
+                FullName = _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser.Id).Select(u => u.FirstName).FirstOrDefault() + " " +
+                            _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser.Id).Select(u => u.LastName).FirstOrDefault(),
+                Email = _userManager.Users.Where(u => u.Id == device.Location.ApplicationUser.Id).Select(u => u.Email).FirstOrDefault()
 
             });
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProTrack.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,14 @@ namespace ProTrack.Data.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    IsActive = table.Column<string>(nullable: true)
+                    IsActive = table.Column<string>(nullable: true),
+                    IsInternal = table.Column<bool>(nullable: false),
+                    CompanyName = table.Column<string>(nullable: true),
+                    StreetAddress = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    PostalCode = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,11 +58,30 @@ namespace ProTrack.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BetaOpportunity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ProjectName = table.Column<string>(nullable: true),
+                    ShortDescription = table.Column<string>(nullable: true),
+                    LongDescription = table.Column<string>(nullable: true),
+                    DriverUrl = table.Column<string>(nullable: true),
+                    QuickStartGuideUrl = table.Column<string>(nullable: true),
+                    UserGuideUrl = table.Column<string>(nullable: true),
+                    FirmwareUrl = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BetaOpportunity", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DeviceTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -64,11 +90,27 @@ namespace ProTrack.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Locations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LocationName = table.Column<string>(nullable: true),
+                    MyDotEmail = table.Column<string>(nullable: true),
+                    C4AccountName = table.Column<string>(nullable: true),
+                    ApplicationUser = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Locations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Manufacturers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ManufacturerName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -81,7 +123,7 @@ namespace ProTrack.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -102,7 +144,7 @@ namespace ProTrack.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -183,22 +225,27 @@ namespace ProTrack.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locations",
+                name: "BetaOptIn",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LocationName = table.Column<string>(nullable: true),
-                    MyDotEmail = table.Column<string>(nullable: true),
-                    C4AccountName = table.Column<string>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    BetaOpportunityId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    Accepted = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locations", x => x.Id);
+                    table.PrimaryKey("PK_BetaOptIn", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Locations_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_BetaOptIn_BetaOpportunity_BetaOpportunityId",
+                        column: x => x.BetaOpportunityId,
+                        principalTable: "BetaOpportunity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BetaOptIn_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -209,7 +256,7 @@ namespace ProTrack.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProductName = table.Column<string>(nullable: true),
                     DeviceTypeId = table.Column<int>(nullable: true),
                     ManufacturerId = table.Column<int>(nullable: true)
@@ -236,33 +283,20 @@ namespace ProTrack.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Firmware = table.Column<string>(nullable: true),
                     MacAddress = table.Column<string>(nullable: true),
-                    ManufacturerId = table.Column<int>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: true),
-                    DeviceTypeId = table.Column<int>(nullable: true),
                     LocationId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Devices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Devices_DeviceTypes_DeviceTypeId",
-                        column: x => x.DeviceTypeId,
-                        principalTable: "DeviceTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Devices_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Devices_Manufacturers_ManufacturerId",
-                        column: x => x.ManufacturerId,
-                        principalTable: "Manufacturers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -282,8 +316,7 @@ namespace ProTrack.Data.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -309,13 +342,17 @@ namespace ProTrack.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Devices_DeviceTypeId",
-                table: "Devices",
-                column: "DeviceTypeId");
+                name: "IX_BetaOptIn_BetaOpportunityId",
+                table: "BetaOptIn",
+                column: "BetaOpportunityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BetaOptIn_UserId",
+                table: "BetaOptIn",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Devices_LocationId",
@@ -323,19 +360,9 @@ namespace ProTrack.Data.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Devices_ManufacturerId",
-                table: "Devices",
-                column: "ManufacturerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Devices_ProductId",
                 table: "Devices",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Locations_ApplicationUserId",
-                table: "Locations",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_DeviceTypeId",
@@ -366,19 +393,25 @@ namespace ProTrack.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BetaOptIn");
+
+            migrationBuilder.DropTable(
                 name: "Devices");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "BetaOpportunity");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "DeviceTypes");

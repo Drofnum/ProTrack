@@ -34,7 +34,7 @@ namespace ProTrack.Controllers
         public IActionResult Manage()
         {
             var userId = _userManager.GetUserId(User);
-            var locationList = _context.Locations.Where(l => l.ApplicationUser == userId)
+            var locationList = _context.Locations.Where(l => l.ApplicationUser.Id == userId)
                 .Select(location => new LocationListingModel
                 {
                     Id = location.Id,
@@ -64,7 +64,7 @@ namespace ProTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,LocationName,MyDotEmail,C4AccountName,ApplicationUser")] Location location)
         {
-            var userId = _userManager.GetUserId(User);
+            var userId = await _userManager.GetUserAsync(User);
             var saveLocation = new Location
             {
                 LocationName = location.LocationName,
@@ -95,7 +95,7 @@ namespace ProTrack.Controllers
             var userId = _userManager.GetUserId(User);
             var location = _locationService.GetById(id);
 
-            if (location == null || location.ApplicationUser != userId)
+            if (location == null || location.ApplicationUser.Id != userId)
             {
                 return NotFound();
             }

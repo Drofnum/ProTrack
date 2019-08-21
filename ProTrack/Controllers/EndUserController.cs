@@ -34,7 +34,7 @@ namespace ProTrack.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            var locationList = _context.Locations.Where(l => l.ApplicationUser == userId)
+            var locationList = _context.Locations.Where(l => l.ApplicationUser.Id == userId)
                 .Select(l => new SelectListItem()
                 {
                     Value = l.Id.ToString(),
@@ -49,7 +49,7 @@ namespace ProTrack.Controllers
                     Text = dt.Type
                 }).ToList();
 
-            var deviceList = _context.Devices.Where(l => l.Location.ApplicationUser == userId && l.Location.Id == id) //_deviceService.GetAll()
+            var deviceList = _context.Devices.Where(l => l.Location.ApplicationUser.Id == userId && l.Location.Id == id) //_deviceService.GetAll()
                 .Select(device => new DeviceListingModel
                 {
                     Id = device.Id,

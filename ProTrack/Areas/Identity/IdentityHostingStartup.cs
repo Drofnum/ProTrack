@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using ProTrack.Data;
 using ProTrack.Data.Models;
 
@@ -15,11 +16,30 @@ namespace ProTrack.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
+
+
             builder.ConfigureServices((context, services) =>
             {
+                /*
                 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     context.Configuration.GetConnectionString("AppContextConnection")));
+                    */
+
+                var db = context.Configuration.GetValue<string>("dbEndpoint", "localhost");
+                var dbUsername = context.Configuration.GetValue<string>("dbUsername", "root");
+                var dbPassword = context.Configuration.GetValue<string>("dbPassword", "falcon44");
+
+                services.AddDbContext<ApplicationDbContext>(options => options
+                .UseMySql($"server={db};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
+                mySqlOptions =>
+                {
+                    mySqlOptions.ServerVersion(new Version(8, 0, 17), ServerType.MySql)
+                    .DisableBackslashEscaping();
+                    
+                }
+                    ));
+
 
                 services.AddDefaultIdentity<ApplicationUser>(config =>
                 {

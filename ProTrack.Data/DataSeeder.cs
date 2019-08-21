@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ProTrack.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,6 @@ namespace ProTrack.Data
         {
             this.context = context;
         }
-
 
     }
 }

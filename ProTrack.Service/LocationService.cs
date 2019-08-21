@@ -37,6 +37,7 @@ namespace ProTrack.Service
         {
             return _context.Locations.Where(l => l.Id == id)
             .Include(l => l.Devices)
+            .Include(l => l.ApplicationUser)
             .FirstOrDefault();
         }
     }
