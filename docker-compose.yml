@@ -8,8 +8,5 @@ services:
         environment:
          - dbServer=
          - dbUsername=
-<<<<<<< HEAD
          - dbPassword=
-=======
-         - dbPassword=
->>>>>>> dc2c64cc0abf5a3511d31833f9a29784c786ad80
+
