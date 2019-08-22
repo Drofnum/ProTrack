@@ -20,23 +20,17 @@ namespace ProTrack.Areas.Identity
 
             builder.ConfigureServices((context, services) =>
             {
-                /*
-                services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    context.Configuration.GetConnectionString("AppContextConnection")));
-                    */
-
-                var db = context.Configuration.GetValue<string>("dbEndpoint", "localhost");
-                var dbUsername = context.Configuration.GetValue<string>("dbUsername", "root");
-                var dbPassword = context.Configuration.GetValue<string>("dbPassword", "falcon44");
+                var dbServer = context.Configuration.GetValue<string>("dbServer");
+                var dbUsername = context.Configuration.GetValue<string>("dbUsername");
+                var dbPassword = context.Configuration.GetValue<string>("dbPassword");
 
                 services.AddDbContext<ApplicationDbContext>(options => options
-                .UseMySql($"server={db};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
+                .UseMySql($"server={dbServer};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
                 mySqlOptions =>
                 {
                     mySqlOptions.ServerVersion(new Version(8, 0, 17), ServerType.MySql)
                     .DisableBackslashEscaping();
-                    
+
                 }
                     ));
 

@@ -1,11 +1,12 @@
-ARG dbEndpoint
-ARG dbUsername
-ARG dbPassword
-
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+
+ARG dbServer
+ARG dbUsername
+ARG dbPassword
+
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
@@ -24,4 +25,3 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "ProTrack.dll"]
-CMD ["DbEndpoint", "Username", "Password"]

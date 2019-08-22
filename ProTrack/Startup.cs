@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -12,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Pomelo.EntityFrameworkCore.MySql.Internal;
 using ProTrack.Data;
 using ProTrack.Data.Models;
 using ProTrack.Service;
@@ -48,24 +46,17 @@ namespace ProTrack
                 o.SlidingExpiration = true;
             });
 
-            var db = Configuration.GetValue<string>("dbEndpoint", "Failed");
-            var dbUsername = Configuration.GetValue<string>("dbUsername", "Failed");
-            var dbPassword = Configuration.GetValue<string>("dbPassword", "Failed");
-
-            /*
-            services.AddDbContext<ApplicationDbContext>(options => options
-            .UseSqlServer(Configuration.GetConnectionString("AppContextConnection")));
+            var dbServer = Configuration.GetValue<string>("dbServer");
+            var dbUsername = Configuration.GetValue<string>("dbUsername");
+            var dbPassword = Configuration.GetValue<string>("dbPassword");
 
             services.AddDbContext<ApplicationDbContext>(options => options
-            .UseSqlServer($"Server={db};Database=ProTrack;Trusted_Connection=True;MultipleActiveResultSets=true; User ID={dbUsername};Password={dbPassword}"));
-            */
-
-            services.AddDbContext<ApplicationDbContext>(options => options
-            .UseMySql($"server={db};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
+            .UseMySql($"server={dbServer};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
             mySqlOptions =>
             {
                 mySqlOptions.ServerVersion(new Version(8, 0, 17), ServerType.MySql)
                 .DisableBackslashEscaping();
+
             }
                 ));
 
@@ -87,6 +78,15 @@ namespace ProTrack
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            /*
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(60);
+
+            });
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
