@@ -66,26 +66,19 @@ namespace ProTrack.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userName = await _userManager.GetUserNameAsync(user);
-            var companyName = _userManager.Users.Select(u => u.CompanyName).FirstOrDefault();
-            var streetAddress = _userManager.Users.Select(u => u.StreetAddress).FirstOrDefault();
-            var city = _userManager.Users.Select(u => u.City).FirstOrDefault();
-            var state = _userManager.Users.Select(u => u.State).FirstOrDefault();
-            var postalCode = _userManager.Users.Select(u => u.PostalCode).FirstOrDefault();
-            var country = _userManager.Users.Select(u => u.Country).FirstOrDefault();
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var userName = user.UserName;
 
             Username = userName;
 
             Input = new InputModel
             {
-                CompanyName = companyName,
-                StreetAddress =streetAddress,
-                City = city,
-                State = state,
-                PostalCode = postalCode,
-                Country = country,
-                PhoneNumber = phoneNumber                
+                CompanyName = user.CompanyName,
+                StreetAddress = user.StreetAddress,
+                City = user.City,
+                State = user.State,
+                PostalCode = user.PostalCode,
+                Country = user.Country,
+                PhoneNumber = user.PhoneNumber                
             };
 
             return Page();

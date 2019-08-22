@@ -6,6 +6,7 @@ EXPOSE 443
 ARG dbServer
 ARG dbUsername
 ARG dbPassword
+ARG ASPNETCORE_ENVIRONMENT
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src

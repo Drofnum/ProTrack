@@ -67,20 +67,16 @@ namespace ProTrack.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userName = await _userManager.GetUserNameAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var firstName = _userManager.Users.Select(u => u.FirstName).FirstOrDefault();
-            var lastName = _userManager.Users.Select(u => u.LastName).FirstOrDefault();
+            var userName = user.UserName;
 
             Username = userName;
 
             Input = new InputModel
             {
-                Email = email,
-                PhoneNumber = phoneNumber,
-                FirstName = firstName,
-                LastName = lastName
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);

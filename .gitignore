@@ -14,6 +14,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+docker-compose.yml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -354,3 +355,4 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/visualstudio
+docker-compose.yml
