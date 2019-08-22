@@ -7,7 +7,6 @@ ARG dbServer
 ARG dbUsername
 ARG dbPassword
 
-
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
 COPY ["ProTrack/ProTrack.csproj", "ProTrack/"]

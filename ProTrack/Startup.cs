@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -78,6 +79,11 @@ namespace ProTrack
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDataProtection()
+                .SetApplicationName("Protrack")
+                .PersistKeysToFileSystem(new DirectoryInfo(@"/var/dpkeys/"));
+
             /*
             services.AddHsts(options =>
             {

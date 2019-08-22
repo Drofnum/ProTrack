@@ -7,6 +7,6 @@ services:
          - "80:80"
          - "443:44379"
         environment:
-         - dbServer=10.17.80.104
-         - dbUsername=root
-         - dbPassword=falcon44
+         - dbServer=
+         - dbUsername=
+         - dbPassword=
