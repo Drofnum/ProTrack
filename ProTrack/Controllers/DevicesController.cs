@@ -9,7 +9,7 @@ using ProTrack.Models.Display;
 
 namespace ProTrack.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DevicesController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -13,7 +13,8 @@ using ProTrack.Models.EndUser;
 
 namespace ProTrack.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Active, PendingActivation")]
+
     public class EndUserController : Controller
     {
         private readonly IEntry _entryService;

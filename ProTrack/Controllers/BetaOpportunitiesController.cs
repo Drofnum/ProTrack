@@ -15,7 +15,7 @@ using ProTrack.Models.BetaOpportunities;
 
 namespace ProTrack.Controllers
 {
-    [Authorize(Roles = "Admin, Active")]
+    [Authorize(Roles = "Admin")]
     public class BetaOpportunitiesController : Controller
     {
         private readonly ApplicationDbContext _context;

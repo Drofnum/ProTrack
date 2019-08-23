@@ -8,7 +8,7 @@ using ProTrack.Models.Display;
 
 namespace ProTrack.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DisplayController : Controller
     {
         private readonly ApplicationDbContext _context;

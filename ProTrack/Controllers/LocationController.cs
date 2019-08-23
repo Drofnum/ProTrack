@@ -12,7 +12,7 @@ using ProTrack.Models.Display;
 
 namespace ProTrack.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Active, PendingActivation")]
     public class LocationController : Controller
     {
         private readonly ApplicationDbContext _context;

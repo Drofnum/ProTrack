@@ -9,6 +9,7 @@ using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Atlassian.Jira;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ using ProTrack.Models.Betas;
 
 namespace ProTrack.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BetasController : Controller
     {
         private readonly ApplicationDbContext _context;
