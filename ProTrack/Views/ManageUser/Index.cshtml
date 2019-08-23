@@ -1,0 +1,49 @@
+﻿@model  ProTrack.Models.ManageUser.UserIndexModel
+@{
+    ViewData["Title"] = "User Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>User Management</h1>
+
+<form asp-controller="ManageUser" asp-action="Index" method="get">
+    <p>
+        Name: <input type="text" name="nameSearchString" />
+        Email: <input type="text" name="emailSearchString" />
+        <button type="submit" class="btn">
+            <i class="material-icons">search</i>
+        </button>
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -33,7 +33,6 @@ namespace ProTrack.Controllers
 
             IQueryable<Device> devices = _context.Devices;
             var areNoResults = true;
-            string userId = null;
             if (!String.IsNullOrEmpty(emailSearchString))
             {
                 var userEmail = _userManager.Users.Where(u => u.Email.Contains(emailSearchString)).Select(u => u.Id).FirstOrDefault();

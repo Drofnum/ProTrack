@@ -17,7 +17,6 @@ C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\bin\Debug\netcoreapp2.2\Pr
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\bin\Debug\netcoreapp2.2\ProTrack.Data.runtimeconfig.dev.json
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\bin\Debug\netcoreapp2.2\ProTrack.Data.dll
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\bin\Debug\netcoreapp2.2\ProTrack.Data.pdb
-C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.csprojAssemblyReference.cache
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.csproj.CoreCompileInputs.cache
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.AssemblyInfoInputs.cache
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.AssemblyInfo.cs

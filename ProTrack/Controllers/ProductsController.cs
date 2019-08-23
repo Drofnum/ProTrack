@@ -61,7 +61,7 @@ namespace ProTrack.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Create(ProductsEntryModel model)
+        public IActionResult Create(ProductsEntryModel model)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace ProTrack.Controllers
 
 
         // GET: Product/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
