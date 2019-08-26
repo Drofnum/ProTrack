@@ -10,7 +10,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "DbEndpoint=localhost dbUsername=root dbPassword=falcon44",
+      "commandLineArgs": "dbServer=localhost dbUsername=root dbPassword=falcon44",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

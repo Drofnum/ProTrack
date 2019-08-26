@@ -22,3 +22,4 @@ C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\Pr
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.AssemblyInfo.cs
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.dll
 C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.pdb
+C:\Users\amunford\source\repos\ProTrack\ProTrack.Data\obj\Debug\netcoreapp2.2\ProTrack.Data.csprojAssemblyReference.cache

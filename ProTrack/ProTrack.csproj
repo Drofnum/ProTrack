@@ -5,6 +5,7 @@
     <DebugType>full</DebugType>
     <UserSecretsId>d23be661-b1fb-46b8-bdab-9ecb78b9d801</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
 
