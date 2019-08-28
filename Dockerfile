@@ -4,11 +4,13 @@ EXPOSE 80
 EXPOSE 443
 
 ARG dbServer
+ENV dbServer=$dbServer
 ARG dbUsername
+ENV dbUsername=$dbUsername
 ARG dbPassword
+ENV dbPassword=$dbPassword
 ARG ASPNETCORE_ENVIRONMENT
-ARG ASPNETCORE_URLS
-ARG ASPNETCORE_HTTPS_PORT
+ENV ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
