@@ -273,6 +273,33 @@ namespace ProTrack.Controllers
             return View(model);
         }
 
+        public IActionResult SubmitFeedback(int id)
+        {
+            var betaProject = _context.BetaOpportunity
+                .Where(b => b.Id == id).FirstOrDefault();
+
+            var model = new SubmitFeedbackListingModel
+            {
+                Id = betaProject.Id,
+                ProjectName = betaProject.ProjectName + " Feedback"
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitFeedback(SubmitFeedbackListingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                await _emailSender.SendEmailAsync("amunford@control4.com", "Feedback for " + model.ProjectName,
+                        model.Summary);
+
+                return RedirectToAction("FeedbackSubmitted", "Betas");
+            }
+            return View(model);
+        }
+
         private string BuildJiraIssue(SubmitBugListingModel model)
         {
             var jiraJson = new
@@ -330,12 +357,16 @@ namespace ProTrack.Controllers
             return View(model);
         }
 
+        public IActionResult FeedbackSubmitted(SubmitFeedbackListingModel model)
+        {
+            return View(model);
+        }
+
         [HttpPost]
         public IActionResult GetBetas(int Id, string accepted, string rejected)
         {
             return RedirectToAction("Applicants", "Betas", new { id = Id, rejected = rejected, accepted = accepted });
         }
-
 
     }
 }

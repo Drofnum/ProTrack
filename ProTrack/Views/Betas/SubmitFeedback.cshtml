@@ -1,8 +1,34 @@
-﻿
+﻿@model ProTrack.Models.Betas.SubmitFeedbackListingModel
 @{
     ViewData["Title"] = "Submit Feedback";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>SubmitFeedback</h1>
+<h1>Submit Bug</h1>
+<h1>@Html.DisplayFor(model => model.ProjectName) Bug report</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <input asp-for="ProjectName" class="form-control" />
+                <span asp-validation-for="ProjectName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Summary" class="control-label"></label>
+                <textarea asp-for="Summary" class="form-control"></textarea>
+                <span asp-validation-for="Summary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="MyBetas">Back to List</a>
+</div>
 

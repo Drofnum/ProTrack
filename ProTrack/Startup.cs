@@ -52,7 +52,7 @@ namespace ProTrack
             var dbPassword = Configuration.GetValue<string>("dbPassword");
 
             services.AddDbContext<ApplicationDbContext>(options => options
-            .UseMySql($"server={dbServer};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
+            .UseMySql($"server={dbServer};port=3306;database=protrack;user={dbUsername};password={dbPassword}",
             mySqlOptions =>
             {
                 mySqlOptions.ServerVersion(new Version(8, 0, 17), ServerType.MySql)
@@ -109,7 +109,7 @@ namespace ProTrack
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseCookiePolicy();
@@ -121,9 +121,11 @@ namespace ProTrack
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            
+            ApplyMigrations(serviceProvider.GetService<ApplicationDbContext>());
+
             //CreateUsers(serviceProvider).Wait();
             CreateUserRoles(serviceProvider).Wait();
+            
 
         }
 
@@ -195,7 +197,7 @@ namespace ProTrack
             }
         }
 
-            public void ApplyMigrations(ApplicationDbContext context)
+         public void ApplyMigrations(ApplicationDbContext context)
         {
             if (context.Database.GetPendingMigrations().Any())
             {

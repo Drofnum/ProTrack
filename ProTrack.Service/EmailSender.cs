@@ -41,5 +41,27 @@ namespace ProTrack.Service
 
             return client.SendEmailAsync(msg);
         }
+
+        public Task SendFeedback(string subject, string message, string email, string emailCC)
+        {
+            var client = new SendGridClient(Options.SendGridKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress("ProTrack@control4.com", "Control4 Project Tracker"),
+                Subject = subject,
+                PlainTextContent = message,
+                HtmlContent = message
+            };
+            msg.AddTo(new EmailAddress(email));
+            msg.AddCc(new EmailAddress(emailCC));
+
+            // Disable click tracking.
+            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
+            msg.SetClickTracking(false, false);
+
+            client.SendEmailAsync(msg);
+        }
+
+
     }
 }
