@@ -124,7 +124,7 @@ namespace ProTrack
             ApplyMigrations(serviceProvider.GetService<ApplicationDbContext>());
 
             //CreateUsers(serviceProvider).Wait();
-            CreateUserRoles(serviceProvider).Wait();
+            //CreateUserRoles(serviceProvider).Wait();
             
 
         }
