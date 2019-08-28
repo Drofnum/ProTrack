@@ -24,7 +24,7 @@ namespace ProTrack.Areas.Identity
                 var dbPassword = context.Configuration.GetValue<string>("dbPassword");
 
                 services.AddDbContext<ApplicationDbContext>(options => options
-                .UseMySql($"server={dbServer};port=3306;database=ProTrack;user={dbUsername};password={dbPassword}",
+                .UseMySql($"server={dbServer};port=3306;database=protrack;user={dbUsername};password={dbPassword}",
                 mySqlOptions =>
                 {
                     mySqlOptions.ServerVersion(new Version(8, 0, 17), ServerType.MySql)
