@@ -41,7 +41,7 @@ namespace ProTrack.Service
 
             return client.SendEmailAsync(msg);
         }
-
+        /*
         public Task SendFeedback(string subject, string message, string email, string emailCC)
         {
             var client = new SendGridClient(Options.SendGridKey);
@@ -59,9 +59,8 @@ namespace ProTrack.Service
             // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
             msg.SetClickTracking(false, false);
 
-            client.SendEmailAsync(msg);
+            return client.SendEmailAsync(msg);
         }
-
-
+        */
     }
 }

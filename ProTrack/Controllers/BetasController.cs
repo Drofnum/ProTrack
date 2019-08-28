@@ -291,7 +291,7 @@ namespace ProTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                
                 await _emailSender.SendEmailAsync("amunford@control4.com", "Feedback for " + model.ProjectName,
                         model.Summary);
 
